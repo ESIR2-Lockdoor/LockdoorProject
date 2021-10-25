@@ -12,6 +12,7 @@ import Contact from './pages/Contact/Contact';
 import Project from './pages/Project/Project';
 import Fonctionnement from './pages/Fonctionnement/Fonctionnement';
 import Dashboard from './pages/Dashboard/Dashboard';
+import LockDoor from './pages/LockDoor/LockDoor';
 import Navbar from './components/Navbar/Navbar';
 
 import "./App.css"
@@ -36,6 +37,9 @@ const App = () => {
         </Route>
         <Route path="/contact" exact>
           <Contact/>
+        </Route>
+        <Route path="/lockdoor" exact>
+          <LockDoor/>
         </Route>
         <Redirect to="/" />
       </Switch>
