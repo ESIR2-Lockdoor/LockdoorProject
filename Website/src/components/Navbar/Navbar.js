@@ -107,6 +107,15 @@ const Navbar = () => {
                 </i>Nous contacter
               </NavLink>
             </li>
+
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/lockdoor" exact>
+                <i 
+                className="fas fa-lock">
+                </i>LockDoor
+              </NavLink>
+            </li>
+
         </ul>
       </div>
   </nav>
