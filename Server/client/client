@@ -1,0 +1,71 @@
+/* Ici nous avons le code de la Raspberry qui doit communiquer avec le serveur
+La connexion doit être bi-directionnelle == les deux sont clients et serveurs
+
+1) DE LA RASPBERRY AU SERVEUR
+On veut ouvrir la porte connectée grâce au NFC/RFID
+    - on reçoit une trame, on en sort à minima un identifiant ID Lockdoor
+Les différents cas sont à exécuter selon les authorisations de l'ID
+Imaginons le cas le plus simple ou il n'y a que des administrateurs : soit l'ID est présent, soit il ne l'est pas
+Dans tous les cas, on reçoit du booléen
+La raspberry doit envoyer au serveur l'ID de l'utilisateur
+
+2) DU SERVEUR A LA RASPBERRY
+Le serveur doit consulter sa base de données pour voir l'authorisation
+Il renvoie un true or false // et modifie l'état dans son système
+
+3) RECEPTION 
+Ouverture
+
+var net = require('net');
+
+/* CONFIGURATION DE LA CONNEXION */
+var PORT = 3000;
+var HOST = '127.0.0.1'
+
+var client = new net.Socket(); 
+
+/* VARIABLES DOC YARGS */
+/*const yargs = require('yargs/yargs');
+const {hideBin} = require('yargs/helpers');
+const argv = yargs(hideBin(process.argv)).argv;
+*/
+
+var line = readline.createInterface({
+    input: process.stdin
+});
+
+/* CONNEXION DU CLIENT AU SERVEUR */
+client.connect(PORT, HOST, argv.name, function() {
+    //PORT et HOST en .env et argv.name renseigné à l'exec : --name
+    client.write(JSON.stringify({"name":argv.name, "action":"client-name"}));
+    //la socket renvoie le nom du client qui s'est connecté
+    line.input.write('>');
+});
+
+/* EN ATTENTE D'UNE COMMANDE */
+client.on('data', function(data) {
+    msg = JSON.parse(data); //conversion du format JSON en JS
+    console.log('Received: ' + data); //données au format JSON
+    console.log(' ' + msg.msg); //la partie msg du message reçu
+    line.input.write('>');
+});
+
+line.input.resume();
+line.input.setEncoding('utf8');
+line.input.write('>');
+//traitement de la commande
+line.input.on('data', (text) => {
+    //logsock(text);
+    let cmd = text.split(';');
+    //découper l'entrée par le point virgule en un 'tableau' d'élément
+    //("s;david;hello").split(';') = cmd => cmd[0] = 's' ; cmd[1] = 'david' ; cmd[2] = 'hello'
+    console.log('cmd');
+		switch(cmd[0]){
+            case 'true':
+                break;
+
+            case 'false':
+                break;
+        }
+    
+});
