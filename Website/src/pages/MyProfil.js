@@ -3,7 +3,7 @@ import Navigation from '../components/Navigation';
 import Logo from '../components/Logo';
 const MyProfil = () => {
     return (
-        <div>
+        <div className="profil">
             <Navigation />
             <Logo />
             <h1>Mon profil</h1>

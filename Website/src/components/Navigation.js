@@ -9,6 +9,15 @@ const Navigation = () => {
             <NavLink exact to="/myProfil" activeClassName="nav-active">
                 Mon profil
             </NavLink>
+            <NavLink exact to="/admin-settings" activeClassName="nav-active">
+                Admin Settings
+            </NavLink>
+            <NavLink exact to="/settings" activeClassName="nav-active">
+                Settings
+            </NavLink>
+            <NavLink exact to="/about" activeClassName="nav-active">
+                About
+            </NavLink>
         </div>
     );
 };
