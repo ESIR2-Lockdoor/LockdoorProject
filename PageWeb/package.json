@@ -1,0 +1,20 @@
+{
+  "name": "portes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./public/server.js",
+  "scripts": {
+    "watch": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "nedb": "^1.8.0",
+    "ws": "^8.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
