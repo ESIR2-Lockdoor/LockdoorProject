@@ -82,3 +82,20 @@ else --> message d'erreur
 3 - x
 4 - x
 
+
+PROPRIETE 3
+
+1 - x
+2 - if(pseudo == pseudo_invité)
+db.each('SELECT `toutes les autorisations` FROM AUTHORISATIONS WHERE id_user= ?', [id_user])
+else --> message d'erreur
+3 - x
+4 - x
+
+PROPRIETE 4
+
+1 - x
+
+PROPRIETE 5
+
+1 - faire l'appli lockdoor avec une webview
