@@ -44,3 +44,41 @@ db.run('INSERT INTO USERS(pseudo, password) VALUES (?, ?)', [id, password]);
 //supression par clics sur la page web ? Donc recuperation du pseudo / de l'ID == de l'identité du user à supprimer
 // dans un tableau ? table.getElementById('xxx') // table.tr, table.td, etc // ?
 db.run('DELETE FROM USERS WHERE pseudo = ?', [pseudo]);
+
+PRIORITE 1
+1 - ajouter : //recuperation des valeurs des textbox
+    db.run('INSERT INTO USERS(pseudo, password) VALUES (?, ?)', [id, password]); // pseudo (champs 1), password (champs 2)
+2 - v
+3 - v
+
+4.1 - Ajouter
+if(username == pseudo_db) --> ajouter pseudo
+        //recuperation des valeurs des textbox
+        db.run('INSERT INTO AUTHORISATIONS(id_user, id_porte) VALUES (?, ?)', [id_user, id_porte]);
+    else --> message d'erreur
+    
+4.2 - Supprimer
+if(username == pseudo_db) --> supprimer pseudo
+    //recuperation des valeurs des textbox
+    db.run('DELETE FROM AUTHORISATIONS WHERE id_users= ?', [id_user]);
+    else --> message d'erreur
+
+5 - if(pseudo autorisé à agir sur la porte) --> update les états de checkbox concernées
+db.run(UPDATE client SET checkbox = ? WHERE id = ?, [nom_checkbox, pseudo])
+else --> message d'erreur
+
+6 - x
+7 - conséquence de 5
+
+
+PROPRIETE 2
+
+1 - visible uniquement pour l'admin
+if(pseudo == pseudo_admin)
+db.each('SELECT histo_action AND histo_time FROM HISTORICAL', (error, data)=> {
+else --> message d'erreur
+
+2 - voir dans PROPRIETE 1 le 5-
+3 - x
+4 - x
+
