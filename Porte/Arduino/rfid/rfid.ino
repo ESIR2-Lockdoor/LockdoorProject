@@ -8,7 +8,7 @@ String rfidCard;
 void setup() {
   Serial.begin(9600);
   Serial.println("Starting the RFID Reader...");
-  SPI.begin(); cd
+  SPI.begin();
   rfid.init();
   pinMode(relay,OUTPUT);    // Define the port attribute as output 
 }
@@ -18,7 +18,7 @@ void loop() {
     if (rfid.readCardSerial()) {
       rfidCard = String(rfid.serNum[0]) + " " + String(rfid.serNum[1]) + " " + String(rfid.serNum[2]) + " " + String(rfid.serNum[3]);
       Serial.println(rfidCard);
-      delay(2000);
+      delay(500);
       if (rfidCard == "20 66 61 43") {
         if(relay_state){
           digitalWrite(relay,LOW);   // turn the relay ON
