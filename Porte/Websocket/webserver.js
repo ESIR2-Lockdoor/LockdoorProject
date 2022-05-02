@@ -40,9 +40,10 @@ function handler (req, res) {
     var filename = "." + q.pathname;
     console.log('filename='+filename);
     var extname = path.extname(filename);
-    if (filename=='./') {
+    
+	if (filename=='./') {
       console.log('retrieving default index.html file');
-      filename= './index.html';
+      filename= './Home.html';
     }
     
     // Initial content type
@@ -72,12 +73,12 @@ function handler (req, res) {
     
 
     
-    fs.readFile(__dirname + '/public/' + filename, function(err, content) {
+    fs.readFile(__dirname + '/public/HTML' + filename, function(err, content) {
 	if(err) {
 	    console.log('File not found. Filename='+filename);
-	    fs.readFile(__dirname + '/public/404.html', function(err, content) {
-		res.writeHead(200, {'Content-Type': 'text/html'}); 
-		return res.end(content,'utf8'); //display 404 on error
+	    fs.readFile(__dirname + '/public/HTML/404.html', function(err, content) {
+			res.writeHead(200, {'Content-Type': 'text/html'}); 
+			return res.end(content,'utf8'); //display 404 on error
 	    });
 	}
 	else {

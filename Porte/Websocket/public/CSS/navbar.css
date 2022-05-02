@@ -1,0 +1,47 @@
+:root{
+    --primary: #41C091;
+    --secondary: #111B47;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Fira sans', sans-serif;
+}
+
+.container{
+    max-width: auto;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.thumb_index{
+    display: flex;
+}
+
+.thumb_index:hover{
+    cursor: pointer;
+    background-color: #41C091;
+}
+
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    background-color: #111B47;
+    padding: 16px 32px;
+    border-bottom: 3px #41C091;
+}
+
+#logo{
+    color: #41C091;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}

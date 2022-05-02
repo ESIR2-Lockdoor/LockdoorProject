@@ -41,7 +41,7 @@ function verifConnect(){
     for(let i=0; i<tabtab.length; i++){
         if(id == tabtab[i].id && password == tabtab[i].pwd){//l'id existe déjà
             document.getElementById('textError').innerHTML = "Bonjour " + tabtab[i].id
-            document.getElementById('btn').href = "Home"
+            document.getElementById('btn').href = "home"
         }else{
             document.getElementById('id').remove
             document.getElementById('pwd').remove
