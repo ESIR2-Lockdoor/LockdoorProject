@@ -19,7 +19,9 @@
 }
 
 .thumb_index{
-    display: flex;
+    list-style-type: none;
+    display: inline-block;
+    
 }
 
 .thumb_index:hover{

@@ -1,5 +1,21 @@
 {
+  "name": "portes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./public/webserver2.js",
+  "scripts": {
+    "watch": "nodemon webserver2.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "socket.io": "^4.5.0"
+    "express": "^4.17.3",
+    "nedb": "^1.8.0",
+    "socket.io": "^4.5.0",
+    "ws": "^8.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
   }
 }
