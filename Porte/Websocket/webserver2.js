@@ -43,17 +43,27 @@ function handler (req, res) {
     
 	var continuousDirName;
 	switch(filename){
-		case './JSsend':
-			continuousDirName = '/public/JS/';
-			filename="send.js";
+		// HTML
+		case './home':
+			continuousDirName = '/public/HTML/';
+			filename="home.html";
 		break
-		case './navbar':
-			continuousDirName = '/public/CSS/';
-			filename="navbar.css";
+		case './myProfil':
+			continuousDirName = '/public/HTML/';
+			filename="myProfil.html";
 		break
-		case './main':
-			continuousDirName = '/public/JS/';
-			filename="main.js";
+		case './settings':
+			console.log("adminsettings")
+			continuousDirName = '/public/HTML/';
+			filename="adminsettings.html";
+		break
+		case './about':
+			continuousDirName = '/public/HTML/';
+			filename="about.html";
+		break
+		case './logout':
+			continuousDirName = '/public/HTML/';
+			filename="main.html";
 		break
 		case './connexion':
 			continuousDirName = '/public/HTML/';
@@ -63,9 +73,31 @@ function handler (req, res) {
 			continuousDirName = '/public/HTML/';
 			filename="inscription.html";
 		break
-		case './settings':
-			continuousDirName = '/public/HTML/';
-			filename="adminsettings.html";
+
+		// JS
+		case './JSsend':
+			continuousDirName = '/public/JS/';
+			filename="send.js";
+		break
+		case './main':
+			continuousDirName = '/public/JS/';
+			filename="main.js";
+		break
+
+		// CSS
+		case './navbar':
+			continuousDirName = '/public/CSS/';
+			filename="navbar.css";
+		break
+		case './style-settings':
+			continuousDirName = '/public/CSS/';
+			filename="style-settings.css";
+		break
+		case './multiselect':
+			continuousDirName = '/public/CSS/';
+			filename="style-multiselect.css";
+		break
+
 		default:
 			continuousDirName = '/public/HTML/';
 			filename="main.html";
@@ -99,37 +131,21 @@ function handler (req, res) {
     }
     
     fs.readFile(__dirname + continuousDirName + filename, function(err, content) {
+		console.log("Filename="+filename)
 		if(err) {
 			console.log('File not found. Filename='+continuousDirName+filename);
+			fs.readFile(__dirname + "/public/HTML/404.html", function(err, content) {
+				res.writeHead(200, {'Content-Type': 'text/html'}); 
+				return res.end(content,'utf8'); //display 404 on error
+			})
+		}else{
+			res.writeHead(200, {'Content-Type': contentType}); 
+			console.log("//////// FIN DE LA REQUETE ////////")
+			return res.end(content,'utf8');
 		}
-
-		console.log("filename="+filename)
-		switch(filename){
-			case 'main.html':
-				res.writeHead(200, {'Content-Type': contentType}); 
-				return res.end(content,'utf8');
-			case 'connexion.html':
-				res.writeHead(200, {'Content-Type': contentType}); 
-				return res.end(content,'utf8');
-			case 'inscription.html':
-				res.writeHead(200, {'Content-Type': contentType}); 
-				return res.end(content,'utf8');
-			case 'home.html':
-				res.writeHead(200, {'Content-Type': contentType}); 
-				return res.end(content,'utf8');
-			case 'navbar.css':
-				res.writeHead(200, {'Content-Type': contentType}); 
-				return res.end(content,'utf8');
-			case 'adminsettings.html':
-				res.writeHead(200, {'Content-Type': contentType}); 
-				return res.end(content,'utf8');
-			default :
-				fs.readFile(__dirname + "/public/HTML/404.html", function(err, content) {
-					res.writeHead(200, {'Content-Type': 'text/html'}); 
-					return res.end(content,'utf8'); //display 404 on error
-				})
-		}
+		
 	});
+	
 }
 
 /****** io.socket is the websocket connection to the client's browser********/

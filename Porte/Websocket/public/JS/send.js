@@ -68,6 +68,108 @@ function showCheckBoxes(){
       }
 }
 
+function submit(){
+    var delete_user
+    var all_rights
+    var state_door
+    var modify_remotly
+    var modify_locally
+
+}
+
+function add_hours(){
+    // Create element
+    var para = document.getElementById('select_period')
+    var newPara = document.createElement('p')
+    var newInput = document.createElement('input')
+    var newLabel = document.createElement('label')
+    var newSelectHour1 = document.createElement('select')
+    var newSelectMinute1 = document.createElement('select')
+    var newSelectHour2 = document.createElement('select')
+    var newSelectMinute2 = document.createElement('select')
+    var textLabel = document.createTextNode('De')
+    var textPara_h = document.createTextNode('h')
+    var textPara_a = document.createTextNode('à')
+
+    // Add params
+    newInput.id = "hours_range_1"
+    newInput.type = "radio"
+
+    // Include child in parents
+    newPara.appendChild(newInput)
+    newPara.appendChild(newLabel)
+    newLabel.appendChild(textLabel)
+    for(let i=0; i<24; i++){
+        newSelectHour1.appendChild(create_option_hours(i))
+    }
+    newPara.appendChild(newSelectHour1)
+    newPara.appendChild(textPara_h)
+    for(let i=0; i<12; i++){
+        newSelectMinute1.appendChild(create_option_minutes(i))
+    }
+    newPara.appendChild(newSelectMinute1)
+    newPara.appendChild(textPara_a)
+    for(let i=0; i<24; i++){
+        newSelectHour2.appendChild(create_option_hours(i))
+    }
+    newPara.appendChild(newSelectHour2)
+    newPara.appendChild(textPara_h)
+    for(let i=0; i<12; i++){
+        newSelectMinute2.appendChild(create_option_minutes(i))
+    }
+    newPara.appendChild(newSelectMinute2)
+    
+    document.body.insertBefore(newPara, para)
+}
+
+function create_option_minutes(i) { 
+    var newOptionMinute = document.createElement('option')
+    newOptionMinute.value = i*5
+    if(newOptionMinute.value < 10){
+        newOptionMinute.value = '0' + newOptionMinute.value
+    }
+    var texte = document.createTextNode(newOptionMinute.value)
+    newOptionMinute.appendChild(texte)
+    return newOptionMinute
+}
+
+function create_option_hours(i) { 
+    var newOptionHour = document.createElement('option')
+    newOptionHour.value = i
+    if(newOptionHour.value < 10){
+        newOptionHour.value = '0' + newOptionHour.value
+    }
+    var texte = document.createTextNode(newOptionHour.value)
+    newOptionHour.appendChild(texte)
+    return newOptionHour
+}
+
+
+
+function checkAll(){
+    let all = document.getElementById('all_rights')
+    let state = document.getElementById('state')
+    let remote = document.getElementById('remotly')
+    let local = document.getElementById('locally')
+    
+    if(all.checked){
+        state.checked = true
+        local.checked = true
+        remote.checked = true
+    }else{   
+        state.checked = false
+        local.checked = false
+        remote.checked = false
+    }
+}
+
+function uncheckAll(myCheckbox){
+    let all = document.getElementById('all_rights')
+    
+    if(!myCheckbox.checked){
+        all.checked = false
+    }
+}
 
 // (function (global) {
 //     document.getElementById('btn').addEventListener("click", function () {

@@ -21,13 +21,34 @@
 .thumb_index{
     list-style-type: none;
     display: inline-block;
-    
 }
 
 .thumb_index:hover{
     cursor: pointer;
     background-color: #41C091;
+    transition: 1.1s all;
+    border-radius: 10px;
 }
+
+.is-active{
+    background-color: #41C091;
+    border-radius: 10px;
+    color:#111B47;
+}
+
+.is-not-active{
+    color: #41C091;
+}
+
+.thumb_index:hover a{
+    color: #111B47;
+}
+
+.thumb_index a{
+    text-decoration: none;
+    padding: 8px;
+}
+
 
 nav{
     position: fixed;

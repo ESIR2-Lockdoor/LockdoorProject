@@ -2,43 +2,62 @@
 <html lang="en">
     <head>
         <meta chartset="utf-8">
+        <title>LockDoor | Settings</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- <link href="../CSS/style_checkboxes.css"> -->
-        <title>Admin Settings</title>
+        <link rel="stylesheet" href="navbar"></link>
+        <link rel="stylesheet" href="style-settings"></link>
+        <link rel="stylesheet" href="multiselect"></link>
     </head>
     <body>
-        <div>
+        <nav class="menu">
+            <div class="container">
+              <h1 id="logo">LockDoor</h1>
+              <ul>
+                <li class="thumb_index"><a id="home" href="home" class="is-not-active">Home</a></li>
+                <li class="thumb_index"><a id="myProfil" href="myProfil" class="is-not-active">My Profil</a></li>
+                <li class="thumb_index"><a id="settings" href="settings" class="is-active">Settings</a></li>
+                <li class="thumb_index"><a id="about" href="about" class="is-not-active">About</a></li>
+                <li class="thumb_index"><a id="log_out" href="logout" class="is-not-active">Log out</a></li>
+              </ul>
+            </div>
+        </nav>
+        <div class="style-setting">
             <p id="test"></p>
-            <p>Gestion des droits utilisateurs</p>
-            <p>ID Lockdoor : 
-                <select name="prenom">
-                    <option value="theo">Theo</option>
-                    <option value="mathis">Mathis</option>
-                </select>
-                <input type="checkbox">
+            <h1>Gestion des droits utilisateurs</h1>
+            <div class="select-user">
+                <p>ID Lockdoor : 
+                    <select class="prenom">
+                        <option value="theo">Theo</option>
+                        <option value="mathis">Mathis</option>
+                    </select>
                     Supprimer l'utilisateur
-            </p>
-            <li><label for="all_rights">Tous les droits</label>
-                    <input id="all_rights" type="checkbox">
-            </li>
-                <li>Connaitre l'état de la porte
-                    <input id="state" type="checkbox">
+                    <input id="delete_user" type="checkbox">
+                </p>
+            </div>
+            <div id="list-property">
+                <li>                    
+                    <label for="all_rights">Tous les droits</label>
+                    <input id="all_rights" type="checkbox" onchange="checkAll()">
                 </li>
-                <li>Modifier l'état de la porte
-                    à distance
-                        <input id="remotly" type="checkbox">
-                         et/ou localement
-                        <input id="locally"type="checkbox"><br><br>
-                    
+                <li>
+                    Connaitre l'état de la porte
+                    <input id="state" type="checkbox" onchange="uncheckAll(this)">
                 </li>
-                
-                <li>Plage horaire d'application des droits</li>
+                <li>
+                    Modifier l'état de la porte à distance
+                    <input id="remotly" type="checkbox" onchange="uncheckAll(this)">
+                    et/ou localement
+                    <input id="locally"type="checkbox" onchange="uncheckAll(this)"><br><br>
+                </li>
+            </div>
+            <!-- <div id="hour-range">
+                <h1>Plage horaire d'application des droits</h1>
                 <p>
                     <input id="all_day" type="radio" name="select_time" value="all_day" checked>
                     <label for="all_day">Toute la journée</label>
                 </p>
-                <p><input id="hours_range" name="select_time" type="radio" value="hours_range">
-                    <label for="hours_range">De</label>
+                <p id="select_period"><input id="original_hours_range" name="select_time" type="radio" value="hours_range">
+                    <label for="original_hours_range">De</label>
                     <select name="hours">
                         <option value="00">00</option>
                         <option value="01">01</option>
@@ -122,31 +141,33 @@
                         <option value="50">50</option>
                         <option value="55">55</option>
                     </select>
-                    <input type="button" value="Ajouter un créneau">
+                    <input type="button" id="add_hours" value="Ajouter un créneau">
                 </p>
                 <p>
-                    <div class="multiselect_days">
-                        <div class="selectBox" onclick="showCheckBoxes()">
-                            Le
-                            <select name="days">
-                                <option>option</option>
-                            </select>
-                            <div class="overSelect"></div>
+                    <form>
+                        <div class="multiselect">
+                            <div class="selectBox" onclick="showCheckBoxes()">
+                                Le
+                                <select>
+                                    <option>Select days</option>
+                                </select>
+                                <div class="overSelect"></div>
+                            </div>
+                            <div id="checkboxes">
+                                <label for="lundi"><input type="checkbox" id="lundi"/>Lundi</label>
+                                <label for="mardi"><input type="checkbox" id="mardi"/>Mardi</label>
+                                <label for="mercredi"><input type="checkbox" id="mercredi"/>Mercredi</label>
+                                <label for="jeudi"><input type="checkbox" id="jeudi"/>Jeudi</label>
+                                <label for="vendredi"><input type="checkbox" id="vendredi"/>Vendredi</label>
+                                <label for="samedi"><input type="checkbox" id="samedi"/>Samedi</label>
+                                <label for="dimanche"><input type="checkbox" id="dimanche"/>Dimanche</label>
+                            </div>
                         </div>
-                        <div id="checkboxes">
-                                <label for="lundi"><input type="checkbox" id="lundi">Lundi</label>
-                                <label for="mardi"><input type="checkbox" id="mardi">Mardi</label>
-                                <label for="mercredi"><input type="checkbox" id="mercredi">Mercredi</label>
-                                <label for="jeudi"><input type="checkbox" id="jeudi">Jeudi</label>
-                                <label for="vendredi"><input type="checkbox" id="vendredi">Vendredi</label>
-                                <label for="samedi"><input type="checkbox" id="samedi">Samedi</label>
-                                <label for="dimanche"><input type="checkbox" id="dimanche">Dimanche</label>
-                        </div>
-                    </div>
+                    </form>
                 </p>
-                
+            </div> -->
             
-            <input type="button" value="Submit">
+            <input type="button" id="submit" value="Submit"> <!--  onclick="submit()">-->
         </div>
         <script src="/JSsend"></script>
     </body>
