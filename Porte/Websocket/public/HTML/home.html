@@ -7,41 +7,41 @@
         <link rel="stylesheet" href="/navbar"></link>
     </head>
     <body>
-        <nav class="menu">
-          <div class="container">
-            <h1 id="logo">LockDoor</h1>
-            <ul>
-              <li class="thumb_index"><a id="home" href="home" class="is-active">Home</a></li>
-              <li class="thumb_index"><a id="myProfil" href="myProfil" class="is-not-active">My Profil</a></li>
-              <li class="thumb_index"><a id="settings" href="settings" class="is-not-active">Settings</a></li>
-              <li class="thumb_index"><a id="about" href="about" class="is-not-active">About</a></li>
-              <li class="thumb_index"><a id="log_out" href="logout" class="is-not-active">Log out</a></li>
-            </ul>
-          </div>
-        </nav>
+      <!-- page's navbar -->
+      <nav class="menu">
+        <div class="container">
+          <h1 id="logo">LockDoor</h1>
+          <ul>
+            <li class="thumb_index"><a id="home" href="home" class="is-active">Home</a></li>
+            <li class="thumb_index"><a id="myProfil" href="myProfil" class="is-not-active">My Profil</a></li>
+            <li class="thumb_index"><a id="settings" href="settings" class="is-not-active">Settings</a></li>
+            <li class="thumb_index"><a id="about" href="about" class="is-not-active">About</a></li>
+            <li class="thumb_index"><a id="log_out" href="logout" class="is-not-active">Log out</a></li>
+          </ul>
+        </div>
+      </nav>
 
-          <!-- page's body -->
-          <div class="noselect">
+      <!-- page's body -->
+      <div class="noselect">
   
-            <div class="keypadContainer">
-              <h1 class="TextCenter">Control GPIO</h1>
-              
-              <div class="GpioContainer">
-                <strong>GPIO26</strong>
-                <br>
-                  <label class="switch">
-                    <input type="checkbox" id="gache" disabled >
-                    <span class="slider round"></span>
-                  </label>
-                </br>
-                <br>
-                  <button id="gacheM"></button>
-                <br>
-              </div>
-                 
-            </div>
-            
+        <div class="keypadContainer">
+          <h1 class="TextCenter">Control GPIO</h1>
+          
+          <div class="GpioContainer">
+            <strong>GPIO26</strong>
+            <br>
+            <label class="switch">
+              <input type="checkbox" id="gache" disabled >
+              <span class="slider round"></span>
+            </label>	
+            <br>
+              <button id="gacheM"></button>
+            <br>
           </div>
+             
+        </div>
+          
+      </div>
         <script src="/JSsend"></script>
         <!-- include socket.io client side script -->
         <script src="/socket.io/socket.io.js"></script>
