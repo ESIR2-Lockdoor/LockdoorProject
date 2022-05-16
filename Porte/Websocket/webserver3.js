@@ -221,21 +221,15 @@ function verifConnect(id, password){
     }
     
     for(let i=0; i<usersInNetwork.length; i++){
-		console.log("test : " + usersInNetwork[i])
-		db.all(`SELECT DISTINCT password_USER FROM USERS WHERE pseudo_USER=?`,[id], (err, data) => {
-			if(err){throw err}
-
-			console.log("type "+ typeof usersInNetwork[i])
-			console.log("type of data.password_USER : " + typeof data.password_USER+"\n"+
-						"type of password params : " + typeof password + "\n"+
-						"type of usersInNetwork[i] : " + typeof usersInNetwork[i]+"\n" +
-						"type of id : " + typeof id+"\n")
-			if(usersInNetwork[i] == id && data.password_USER == password){
-				console.log("ID trouvé " + usersInNetwork[i] + " son mdp est " + data.password_USER)
-				console.log("return true")
-				return true	// utilisateur identifé (pseudo existant et password correcte)
-			}
-		})
+		console.log("type of data.password_USER : " + typeof data.password_USER+"\n"+
+					"type of password params : " + typeof password + "\n"+
+					"type of usersInNetwork[i] : " + typeof usersInNetwork[i]+"\n" +
+					"type of id : " + typeof id+"\n")
+		if(usersInNetwork[i].name == id && usersInNetwork[i].pwd == password){
+			console.log("ID trouvé " + usersInNetwork[i].name + " son mdp est " + usersInNetwork[i].pwd)
+			console.log("return true")
+			return true	// utilisateur identifé (pseudo existant et password correcte)
+		}
     }
 	console.log("return false")
 	return false
