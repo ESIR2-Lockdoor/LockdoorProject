@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 const {Users} = require('../Websocket/Classe/Users')
-var usersInNetwork
+var usersInNetwork = []
 
 const sqlite3 = require('sqlite3')
 
@@ -24,9 +24,7 @@ let db = new sqlite3.Database('../../mybdd.db', error => {
 })
 
 getBDD(db).then((data) => {
-	usersInNetwork = data	// ajout des utilisateurs de la BDD dans un tableau de la session actuelle
-	console.log("data : " + data.pwd) // affiche un tableau de noms
-	console.log("userInNetwork : " + usersInNetwork)
+	console.log("data : " + data) // affiche un tableau de noms
 
 })
 /****** CONSTANTS******************************************************/
@@ -40,7 +38,7 @@ app.post('/inscription/submit', (req, res) => {
 		res.set('Content-Type', 'text/html')
 		res.redirect('http://localhost:8080/home')
 	}else{
-		res.sendFile(`${__dirname}/public/HTML/inscription.html`)
+		res.redirect('http://localhost:8080/inscription')
 	}
     //res.send(req.body)
 })
@@ -181,9 +179,22 @@ function getBDD(db){
 			})
 		}
 
-		async function createUser(user, pass, historyAccess, localAccess, remoteAccess){
-			return new Users(user, pass, historyAccess, localAccess, remoteAccess)
+		async function putBDDintoTables(){
+			return new Promise((resolve) => {
+				let i = 0;
+				while (i< user.length){
+					usersInNetwork.push(new Users(user[i], pass[i], historyAccess[i], localAccess[i], remoteAccess[i]));
+					console.log("userInNetwork : " + usersInNetwork[i].name)
+					console.log("userInNetwork : " + usersInNetwork[i].pwd)
+					console.log("userInNetwork : " + usersInNetwork[i].historyAccess)
+					console.log("userInNetwork : " + usersInNetwork[i].remoteAccess)
+					console.log("userInNetwork : " + usersInNetwork[i].localAccess)
+					i = i + 1;
+				}
+				resolve(usersInNetwork);
+			})
 		}
+
 		async function final(db){
 			user = await getUsers(db, "pseudo_USER")
 			pass =  await getUsers(db, "password_USER")
@@ -191,21 +202,14 @@ function getBDD(db){
 			remoteAccess = await getUsers(db, "remote_access_USER")
 			localAccess = await getUsers(db, "local_access_USER")
 			
-			return await createUser(user, pass, historyAccess, localAccess, remoteAccess)
+			return await putBDDintoTables()
 			// let pwd = await getUsers(db, "password_USER")
 		}
 		resolve(final(db))
 	})
 }
 
-function putBDDintoTables(){
-	var i = 0;
-	while (i< user.length){
-		usersInNetwork.push(new Users(user, pass, historyAccess, localAccess, remoteAccess));
-		i = i + 1;
-	}
-	return usersInNetwork;
-}
+
 
 function inscription(id, password){
 	var exist = false
