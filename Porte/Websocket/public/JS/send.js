@@ -1,8 +1,14 @@
 var tabtab=[{id: "coco", pwd:"123"}, {id: "mathis", pwd:"456"}, {id: "theo", pwd:"789"}]
 var exist = false
 const admin = document.getElementById('admin')
+let delete_user = document.getElementById('delete_user')
+let all = document.getElementById('all_rights')
+let state = document.getElementById('state')
+let remote = document.getElementById('remotly')
+let local = document.getElementById('locally')
+var checkStates = [null, null, null, null, null];
 
-admin.addEventListener('click', verifAdmin('coco')) // Récupérer le nom de l'admin dans la BDD ('coco' par défaut)
+//admin.addEventListener('click', verifAdmin('coco')) // Récupérer le nom de l'admin dans la BDD ('coco' par défaut)
 
 // function inscription(){
 // 	// Récupération de l'id et du mdp
@@ -130,11 +136,6 @@ function create_option_hours(i) {
 
 
 function checkAll(){
-    let all = document.getElementById('all_rights')
-    let state = document.getElementById('state')
-    let remote = document.getElementById('remotly')
-    let local = document.getElementById('locally')
-    
     if(all.checked){
         state.checked = true
         local.checked = true
@@ -144,6 +145,17 @@ function checkAll(){
         local.checked = false
         remote.checked = false
     }
+    returnCheckStates();
+}
+
+function returnCheckStates(){
+    checkStates[0] = delete_user.checked
+    checkStates[1] = all.checked
+    checkStates[2] = state.checked
+    checkStates[3] = remote.checked
+    checkStates[4] = local.checked
+    console.log("etat des checkbox : ", checkStates)
+    return checkStates;
 }
 
 function uncheckAll(myCheckbox){
@@ -152,6 +164,7 @@ function uncheckAll(myCheckbox){
     if(!myCheckbox.checked){
         all.checked = false
     }
+    returnCheckStates();
 }
 
 // (function (global) {

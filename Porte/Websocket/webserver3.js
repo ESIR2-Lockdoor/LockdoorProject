@@ -35,6 +35,10 @@ app.post('/inscription/submit', (req, res) => {
     //res.set('Content-Type', 'application/json')
     console.log("id : "  + req.body.id + " pwd : "+ req.body.pwd)
     if(inscription(req.body.id, req.body.pwd)){
+		getBDD(db).then((data) => {
+			console.log("data : " + data) // affiche un tableau de noms
+		
+		})
 		res.set('Content-Type', 'text/html')
 		res.redirect('http://localhost:8080/home')
 	}else{
@@ -191,6 +195,9 @@ function getBDD(db){
 					console.log("userInNetwork : " + usersInNetwork[i].localAccess)
 					i = i + 1;
 				}
+				//console.log("UserInNetWORKS global : ", usersInNetwork);
+				//console.log(usersInNetwork.length, usersInNetwork[0].name);
+				
 				resolve(usersInNetwork);
 			})
 		}
@@ -216,9 +223,9 @@ function inscription(id, password){
 
 	if(id=='' || password==''){
 		console.log("L'un des champs est vide")
-	}else{
+	} else {
 		for(let i=0; i<usersInNetwork.length; i++){
-			if (usersInNetwork[i] == id){
+			if (usersInNetwork[i].name == id){
 				exist = true
 				console.log('Identifiant déjà existant, connectez vous ou utilisez un autre identifiant.')
 				return false
@@ -237,20 +244,24 @@ function verifConnect(id, password){
     if(usersInNetwork.length == 0){
         console.log('Error, DB is empty')
     }
-    
-    for(let i=0; i<usersInNetwork.length; i++){
-		console.log("type of data.password_USER : " + typeof data.password_USER+"\n"+
-					"type of password params : " + typeof password + "\n"+
-					"type of usersInNetwork[i] : " + typeof usersInNetwork[i]+"\n" +
-					"type of id : " + typeof id+"\n")
-		if(usersInNetwork[i].name == id && usersInNetwork[i].pwd == password){
-			console.log("ID trouvé " + usersInNetwork[i].name + " son mdp est " + usersInNetwork[i].pwd)
-			console.log("return true")
-			return true	// utilisateur identifé (pseudo existant et password correcte)
+	if(id=='' || password==''){
+		console.log("L'un des champs est vide")
+	} else {
+		console.log("FOR...")
+		for(let i = 0; i<usersInNetwork.length; i++){
+			console.log("ITERATIONS !!!")
+			console.log("id : ", id)
+			console.log("pwd : ", password)
+			console.log("id  user: " + usersInNetwork[i].name + " mdpp user : " + usersInNetwork[i].ppwd)
+			if(usersInNetwork[i].name == id && usersInNetwork[i].pwd == password){
+				console.log("ID trouvé " + usersInNetwork[i].name + " son mdp est " + usersInNetwork[i].pwd)
+				console.log("return true")
+				return true;
+			}
 		}
-    }
-	console.log("return false")
-	return false
+		console.log("Identifiant ou mot de passe saisi incorrect")
+		return false;
+	}
 }
 /****** io.socket is the websocket connection to the client's browser********/
 
