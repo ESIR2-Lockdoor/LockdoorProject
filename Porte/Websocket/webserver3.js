@@ -147,7 +147,7 @@ function getBDD(db){
 	return new Promise((resolve) => {
 		async function getUsers(db, attribut){
 			return new Promise((resolve) => {
-				db.all(`SELECT DISTINCT ${attribut} FROM USERS WHERE id_USER<100`, (err, data) => { // si pas de where la liste s'affiche dans l'ordre alphabétique et c'est pas ce qu'on veut
+				db.all(`SELECT ${attribut} FROM USERS WHERE id_USER<100`, (err, data) => { // si pas de where la liste s'affiche dans l'ordre alphabétique et c'est pas ce qu'on veut
 					if(err){throw err}
 					// console.log(data)
 					var res = []
