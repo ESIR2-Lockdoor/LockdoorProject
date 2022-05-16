@@ -3,11 +3,11 @@ const app = express()
 const server = require('http').createServer(app)
 var io = require('socket.io','net')(server) //require socket.io module and pass the http object (server)
 const bodyParser = require("body-parser")
-var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
-var gache = new Gpio(4, 'out');
-var gachevalue = 0;  // Turn on the LED by default
-var rfid = new Gpio(17,'in','both');
-var delay =1000;
+// var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
+// var gache = new Gpio(4, 'out');
+// var gachevalue = 0;  // Turn on the LED by default
+// var rfid = new Gpio(17,'in','both');
+// var delay =1000;
 
 var user
 var pass
@@ -133,6 +133,10 @@ app.get('/multiselect', (req, res) => {
     res.sendFile(`${__dirname}/public/CSS/style-multiselect.css`)
 })
 
+app.get('/homecss', (req, res) => {
+    res.set('Content-Type', 'text/css')
+    res.sendFile(`${__dirname}/public/CSS/style-home.css`)
+})
 /* if you want to run WebPort on a port lower than 1024 without running
  * node as root, you need to run following from a terminal on the pi
  * sudo apt update
@@ -277,39 +281,39 @@ function verifConnect(id, password){
 
 io.sockets.on('connection', function (socket) {// WebSocket Connection
     console.log('A new client has connectioned. Send LED status');
-   gachevalue = 0;
- rfid.watch(function(err, value){
-        if(err){
-            console.error('There was an error', err);
-	    return;
-	}
-	//if (gachevalue) gachevalue = 0;
-	//else gachevalue = 1;
-	gachevalue = value;
-        socket.emit('gache', gachevalue);
- 	gache.writeSync(gachevalue);
-        console.log('Changement etat de la gache avec rfid');
-        //io.emit('gache', gachevalue);
-    });
-    // this gets called whenever client presses GPIO26 toggle light button
-    socket.on('gacheT', function(data) { 
-	if (gachevalue) gachevalue = 0;
-	else gachevalue = 1;
-	console.log('new gache value='+gachevalue);
-	    gache.writeSync(gachevalue); //turn LED on or off
-	    console.log('Changement etat de la gache avec website');
-	    io.emit('gache', gachevalue); //send button status to ALL clients
-    });
+//    gachevalue = 0;
+//  rfid.watch(function(err, value){
+//         if(err){
+//             console.error('There was an error', err);
+// 	    return;
+// 	}
+// 	//if (gachevalue) gachevalue = 0;
+// 	//else gachevalue = 1;
+// 	gachevalue = value;
+//         socket.emit('gache', gachevalue);
+//  	gache.writeSync(gachevalue);
+//         console.log('Changement etat de la gache avec rfid');
+//         //io.emit('gache', gachevalue);
+//     });
+//     // this gets called whenever client presses GPIO26 toggle light button
+//     socket.on('gacheT', function(data) { 
+// 	if (gachevalue) gachevalue = 0;
+// 	else gachevalue = 1;
+// 	console.log('new gache value='+gachevalue);
+// 	    gache.writeSync(gachevalue); //turn LED on or off
+// 	    console.log('Changement etat de la gache avec website');
+// 	    io.emit('gache', gachevalue); //send button status to ALL clients
+//     });
     
-    // this gets called whenever client presses GPIO26 momentary light button
-    socket.on('gache', function(data) { 
-	gachevalue = data;
-	if (gachevalue != gache.readSync()) { //only change LED if status has changed
-	    gache.writeSync(gachevalue); //turn LED on or off
-	    console.log('Changement etat de la gache en simultané');
-	    io.emit('gache', gachevalue); //send button status to ALL clients 
-	};	
-    });
+//     // this gets called whenever client presses GPIO26 momentary light button
+//     socket.on('gache', function(data) { 
+// 	gachevalue = data;
+// 	if (gachevalue != gache.readSync()) { //only change LED if status has changed
+// 	    gache.writeSync(gachevalue); //turn LED on or off
+// 	    console.log('Changement etat de la gache en simultané');
+// 	    io.emit('gache', gachevalue); //send button status to ALL clients 
+// 	};	
+//     });
     //Whenever someone disconnects this piece of code executed
     socket.on('disconnect', function () {
 	console.log('A user disconnected');

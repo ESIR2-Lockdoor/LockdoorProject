@@ -1,0 +1,9 @@
+.noselect{
+    position: relative;
+    margin: 100px;
+}
+
+#gacheM{
+    width: 25px;
+    height: 25px;
+}
