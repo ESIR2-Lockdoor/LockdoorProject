@@ -11,13 +11,12 @@
     </head>
     <body>
         <div class="page"></div>
-            <div class="input">
-                <input id="id" type="text" name="id"></input>
-                <input id="pwd" type="password" name="pwd"></input>
-            </div>
-            <div class="button">
-                <a class="button" onclick="inscription()">Inscription</a>
-            </div>
+        <form action="/inscription/submit" method="post">
+            <label>Pseudo : <input id="id" type="text" name="id"></label>
+            <label>Mot de Passe : <input id="pwd" type="password" name="pwd"></label>
+            <button type="submit" name="submit">Inscription</button>
+        </form>
+        <p id="textError"></p>
         <script src="/JSsend"></script>
     </body>
 </html>

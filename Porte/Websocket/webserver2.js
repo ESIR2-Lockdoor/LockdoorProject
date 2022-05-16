@@ -4,10 +4,21 @@ var url = require('url');
 var path = require('path');
 var io = require('socket.io','net')(http) //require socket.io module and pass the http object (server)
 var delay =1000;
+const {Users} = require('../Websocket/Classe/Users')
+var usersInNetwork = []
+var users = new Object()
 
+const sqlite3 = require('sqlite3')
+
+let db = new sqlite3.Database('../../mybdd.db', error => {
+	if (error){throw error}
+})
+
+getBDD(db).then((data) => console.log(data))
 /****** CONSTANTS******************************************************/
 
 const WebPort = 8080;
+
 
 
 /* if you want to run WebPort on a port lower than 1024 without running
@@ -145,9 +156,79 @@ function handler (req, res) {
 		}
 		
 	});
+
+	let buffer = ''
+	req.on('data', chunk => {
+		buffer += chunk;
+	});
+		req.on('end', () => {
+		console.log(buffer)
+	});
+	   
 	
 }
 
+function getBDD(db){
+	return new Promise((resolve) => {
+		async function getUsers(db, attribut){
+			return new Promise((resolve) => {
+				db.all(`SELECT DISTINCT ${attribut} FROM USERS 
+					NATURAL JOIN HISTORY
+					NATURAL JOIN DOORS`, (err, data) => {
+					if(err){throw err}
+					data.forEach(test => {
+						switch(attribut){
+							case "pseudo_USER" :
+								usersInNetwork.push(test.pseudo_USER)
+								console.log("pseudos récupérés")
+							break
+							default :
+								console.log(`Rien dans l'attribut ${attribut}`)
+							break
+						}
+					})
+					resolve(usersInNetwork)
+				})
+			})
+		}
+		async function createUser(){
+
+		}
+
+		async function final(db, users){
+			return new Users(await getUsers(db, users))
+		}
+		resolve(final(db, "pseudo_USER"))
+	})
+}
+
+function inscription(){
+	// Récupération de l'id et du mdp
+	const id = document.getElementById('id').value
+	const password = document.getElementById('pwd').value
+	var exist = false
+
+	if(id=='' || password==''){
+		alert("L'un des champs est vide")
+	}else{
+		for(let i=0; i<usersInNetwork.length; i++){
+			if (usersInNetwork[i].id == id){
+				document.getElementById('id').remove
+				document.getElementById('pwd').remove
+				exist = true
+				alert('Identifiant déjà existant, connectez vous ou utilisez un autre identifiant.')
+			}
+		}
+		if(!exist){
+			db.run('INSERT INTO USERS(pseudo_USER, password_USER, access_history_USER, local_access_USER, remote_access_USER) VALUES(?,?,0,0,0)',[id, password])
+			usersInNetwork.push({id: id, pwd: password})
+		}
+	//     for(let i=0; i<usersInNetwork.length; i++){
+	// 	alert(usersInNetwork[i] + ' ' +usersInNetwork[i].pwd)
+	// 	exist=false
+	//     }
+	}
+}
 /****** io.socket is the websocket connection to the client's browser********/
 
 io.sockets.on('connection', function (socket) {// WebSocket Connection
