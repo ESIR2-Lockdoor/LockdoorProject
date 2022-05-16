@@ -10,8 +10,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 const {Users} = require('../Websocket/Classe/Users')
-var usersInNetwork = []
-var users = new Object()
+var usersInNetwork
 
 const sqlite3 = require('sqlite3')
 
@@ -19,7 +18,12 @@ let db = new sqlite3.Database('../../mybdd.db', error => {
 	if (error){throw error}
 })
 
-getBDD(db).then((data) => console.log(data))
+getBDD(db).then((data) => {
+	usersInNetwork = data	// ajout des utilisateurs de la BDD dans un tableau de la session actuelle
+	console.log("data : " + data.pwd) // affiche un tableau de noms
+	console.log("userInNetwork : " + usersInNetwork)
+
+})
 /****** CONSTANTS******************************************************/
 
 const PORT = 8080;
@@ -38,12 +42,12 @@ app.post('/inscription/submit', (req, res) => {
 
 app.post('/connexion/submit', (req, res) => {
     //res.set('Content-Type', 'application/json')
-    console.log("id : "  + req.body.id + " pwd : "+ req.body.pwd)
+    // console.log("id : "  + req.body.id + " pwd : "+ req.body.pwd)
     if(verifConnect(req.body.id, req.body.pwd)){
 		res.set('Content-Type', 'text/html')
 		res.redirect('http://localhost:8080/home')
 	}else{
-		res.sendFile(`${__dirname}/public/HTML/connexion.html`)
+		res.redirect('http://localhost:8080/connexion')
 	}
     //res.send(req.body)
 })
@@ -149,6 +153,18 @@ function getBDD(db){
 							case "pseudo_USER" :
 								res.push(att.pseudo_USER)
 							break
+							case "password_USER" :
+								res.push(att.password_USER)
+							break
+							case "access_history_USER" :
+								res.push(att.access_history_USER)
+							break
+							case "local_access_USER" :
+								res.push(att.local_access_USER)
+							break
+							case "remote_access_USER" :
+								res.push(att.remote_access_USER)
+							break
 							default :
 								console.log(`Rien dans l'attribut ${attribut}`)
 							break
@@ -160,14 +176,18 @@ function getBDD(db){
 			})
 		}
 
-		async function createUser(){
-			return new Users()
+		async function createUser(user, pass, historyAccess, localAccess, remoteAccess){
+			return new Users(user, pass, historyAccess, localAccess, remoteAccess)
 		}
-
 		async function final(db){
-			let id = await getUsers(db, "pseudo_USER")
+			let user = await getUsers(db, "pseudo_USER")
+			let pass =  await getUsers(db, "password_USER")
+			let historyAccess = await getUsers(db, "access_history_USER")
+			let remoteAccess = await getUsers(db, "remote_access_USER")
+			let localAccess = await getUsers(db, "local_access_USER")
+			
+			return await createUser(user, pass, historyAccess, localAccess, remoteAccess)
 			// let pwd = await getUsers(db, "password_USER")
-			return 
 		}
 		resolve(final(db))
 	})
@@ -200,20 +220,25 @@ function verifConnect(id, password){
         console.log('Error, DB is empty')
     }
     
-    for(let i=0; i<tabtab.length; i++){
+    for(let i=0; i<usersInNetwork.length; i++){
+		console.log("test : " + usersInNetwork[i])
 		db.all(`SELECT DISTINCT password_USER FROM USERS WHERE pseudo_USER=?`,[id], (err, data) => {
-			// if(data.pseudo_USER){
+			if(err){throw err}
 
-			// }
+			console.log("type "+ typeof usersInNetwork[i])
+			console.log("type of data.password_USER : " + typeof data.password_USER+"\n"+
+						"type of password params : " + typeof password + "\n"+
+						"type of usersInNetwork[i] : " + typeof usersInNetwork[i]+"\n" +
+						"type of id : " + typeof id+"\n")
+			if(usersInNetwork[i] == id && data.password_USER == password){
+				console.log("ID trouvé " + usersInNetwork[i] + " son mdp est " + data.password_USER)
+				console.log("return true")
+				return true	// utilisateur identifé (pseudo existant et password correcte)
+			}
 		})
-        if(id == usersInNetwork[i].id && password == usersInNetwork[i].pwd){//l'id existe déjà
-            console.log("Bonjour " + usersInNetwork[i].id)
-			return true
-        }else{
-            console.log("Id ou Mdp incorrect")
-			return false
-        }
     }
+	console.log("return false")
+	return false
 }
 /****** io.socket is the websocket connection to the client's browser********/
 

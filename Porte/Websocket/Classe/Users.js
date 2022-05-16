@@ -1,6 +1,7 @@
 class Users{
-        constructor(name, historyAccess, localAccess, remoteAccess ){
+        constructor(name, pwd, historyAccess, localAccess, remoteAccess ){
                 this.name = name
+                this.pwd = pwd
                 this.historyAccess = historyAccess
                 this.localAccess = localAccess
                 this.remoteAccess = remoteAccess
