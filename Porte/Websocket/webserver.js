@@ -72,28 +72,45 @@ app.get('/', (req, res) => {
 })
 
 app.get('/home', (req, res) => {
-    res.set('Content-Type', 'text/html')
-    res.sendFile(`${__dirname}/public/HTML/home.html`)
+	if(typeof user != "string"){
+		res.redirect('http://localhost:8080/')
+	}else{
+		res.set('Content-Type', 'text/html')
+		res.sendFile(`${__dirname}/public/HTML/home.html`)
+	}
 })
 
 app.get('/myProfil', (req, res) => {
-    res.set('Content-Type', 'text/html')
-    res.sendFile(`${__dirname}/public/HTML/myProfil.html`)
+	if(typeof user != "string"){
+		res.redirect('http://localhost:8080/')
+	}else{
+		res.set('Content-Type', 'text/html')
+		res.sendFile(`${__dirname}/public/HTML/myProfil.html`)
+	}
 })
 
 app.get('/settings', (req, res) => {
-    res.set('Content-Type', 'text/html')
-    res.sendFile(`${__dirname}/public/HTML/adminsettings.html`)
+	if(typeof user != "string"){
+		res.redirect('http://localhost:8080/')	
+	}else{
+		res.set('Content-Type', 'text/html')
+		res.sendFile(`${__dirname}/public/HTML/adminsettings.html`)
+	}
 })
 
 app.get('/about', (req, res) => {
-    res.set('Content-Type', 'text/html')
-    res.sendFile(`${__dirname}/public/HTML/about.html`)
+    if(typeof user != "string"){
+		res.redirect('http://localhost:8080/')
+	}else{
+		res.set('Content-Type', 'text/html')
+		res.sendFile(`${__dirname}/public/HTML/about.html`)
+	}
 })
 
 app.get('/logout', (req, res) => {
     res.set('Content-Type', 'text/html')
     res.redirect('http://localhost:8080')
+	user = null
 })
 
 app.get('/connexion', (req, res) => {
@@ -136,6 +153,11 @@ app.get('/multiselect', (req, res) => {
 app.get('/homecss', (req, res) => {
     res.set('Content-Type', 'text/css')
     res.sendFile(`${__dirname}/public/CSS/style-home.css`)
+})
+
+app.get('/style-profil', (req, res) => {
+    res.set('Content-Type', 'text/css')
+    res.sendFile(`${__dirname}/public/CSS/style-profil.css`)
 })
 /* if you want to run WebPort on a port lower than 1024 without running
  * node as root, you need to run following from a terminal on the pi
@@ -260,13 +282,9 @@ function verifConnect(id, password){
 	if(id=='' || password==''){
 		console.log("L'un des champs est vide")
 	} else {
-		console.log("FOR...")
 		for(let i = 0; i<usersInNetwork.length; i++){
-			console.log("ITERATIONS !!!")
-			console.log("id : ", id)
-			console.log("pwd : ", password)
-			console.log("id  user: " + usersInNetwork[i].name + " mdpp user : " + usersInNetwork[i].ppwd)
 			if(usersInNetwork[i].name == id && usersInNetwork[i].pwd == password){
+				user = usersInNetwork[i].name
 				console.log("ID trouvé " + usersInNetwork[i].name + " son mdp est " + usersInNetwork[i].pwd)
 				console.log("return true")
 				return true;
@@ -281,6 +299,9 @@ function verifConnect(id, password){
 
 io.sockets.on('connection', function (socket) {// WebSocket Connection
     console.log('A new client has connectioned. Send LED status');
+	socket.id = user
+	socket.emit('nomClient', socket.id)
+
 //    gachevalue = 0;
 //  rfid.watch(function(err, value){
 //         if(err){
@@ -306,14 +327,15 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 //     });
     
 //     // this gets called whenever client presses GPIO26 momentary light button
-//     socket.on('gache', function(data) { 
-// 	gachevalue = data;
-// 	if (gachevalue != gache.readSync()) { //only change LED if status has changed
-// 	    gache.writeSync(gachevalue); //turn LED on or off
-// 	    console.log('Changement etat de la gache en simultané');
-// 	    io.emit('gache', gachevalue); //send button status to ALL clients 
-// 	};	
-//     });
+    socket.on('gache', function(data) { 
+	gachevalue = data;
+	console.log(gachevalue)
+		// if (gachevalue != gache.readSync()) { //only change LED if status has changed
+		// 	gache.writeSync(gachevalue); //turn LED on or off
+		// 	console.log('Changement etat de la gache en simultané');
+		// 	io.emit('gache', gachevalue); //send button status to ALL clients 
+		// };	
+    });
     //Whenever someone disconnects this piece of code executed
     socket.on('disconnect', function () {
 	console.log('A user disconnected');
