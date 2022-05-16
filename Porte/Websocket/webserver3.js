@@ -3,6 +3,11 @@ const app = express()
 const server = require('http').createServer(app)
 var io = require('socket.io','net')(server) //require socket.io module and pass the http object (server)
 const bodyParser = require("body-parser")
+var user
+var pass
+var historyAccess
+var remoteAccess
+var localAccess
  
 
 app.use(bodyParser.urlencoded({
@@ -180,17 +185,26 @@ function getBDD(db){
 			return new Users(user, pass, historyAccess, localAccess, remoteAccess)
 		}
 		async function final(db){
-			let user = await getUsers(db, "pseudo_USER")
-			let pass =  await getUsers(db, "password_USER")
-			let historyAccess = await getUsers(db, "access_history_USER")
-			let remoteAccess = await getUsers(db, "remote_access_USER")
-			let localAccess = await getUsers(db, "local_access_USER")
+			user = await getUsers(db, "pseudo_USER")
+			pass =  await getUsers(db, "password_USER")
+			historyAccess = await getUsers(db, "access_history_USER")
+			remoteAccess = await getUsers(db, "remote_access_USER")
+			localAccess = await getUsers(db, "local_access_USER")
 			
 			return await createUser(user, pass, historyAccess, localAccess, remoteAccess)
 			// let pwd = await getUsers(db, "password_USER")
 		}
 		resolve(final(db))
 	})
+}
+
+function putBDDintoTables(){
+	var i = 0;
+	while (i< user.length){
+		usersInNetwork.push(new Users(user, pass, historyAccess, localAccess, remoteAccess));
+		i = i + 1;
+	}
+	return usersInNetwork;
 }
 
 function inscription(id, password){
