@@ -63,7 +63,6 @@ function submit(){
     var state_door
     var modify_remotly
     var modify_locally
-
 }
 
 function add_hours(){
