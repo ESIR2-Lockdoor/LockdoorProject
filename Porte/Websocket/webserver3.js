@@ -8,7 +8,8 @@ var pass
 var historyAccess
 var remoteAccess
 var localAccess
- 
+
+
 
 app.use(bodyParser.urlencoded({
     extended:true
@@ -106,6 +107,11 @@ app.get('/JSsend', (req, res) => {
     res.sendFile(`${__dirname}/public/JS/send.js`)
 })
 
+app.get('/adminsettings', (req, res) => {
+    res.set('Content-Type', 'text/javascript')
+    res.sendFile(`${__dirname}/public/JS/adminsettings.js`)
+})
+
 app.get('/main', (req, res) => {
     res.set('Content-Type', 'text/javascript')
     res.sendFile(`${__dirname}/public/JS/main.js`)
@@ -127,6 +133,19 @@ app.get('/multiselect', (req, res) => {
     res.sendFile(`${__dirname}/public/CSS/style-multiselect.css`)
 })
 
+app.get('/getbdd', (req, res) => {
+	console.log("Le client demande la BDD")
+	/*socket.emit('base de donnees a jour');
+    io.sockets.on('connection', function (socket) {// WebSocket Connection
+		console.log("new connection with a client")
+		socket.on('Hello Server I am a new client', function(data) { 
+			socket.emit('I RECEIVED YOU NEW CLIENT')
+		});
+		
+	}); */
+	//emitSocketBDD();
+})
+
 /* if you want to run WebPort on a port lower than 1024 without running
  * node as root, you need to run following from a terminal on the pi
  * sudo apt update
@@ -135,9 +154,6 @@ app.get('/multiselect', (req, res) => {
  */
  
 /*************** Web Browser Communication ****************************/
-
-
-
 
 // Start http webserver
 server.listen(PORT, () => {
@@ -266,16 +282,11 @@ function verifConnect(id, password){
 /****** io.socket is the websocket connection to the client's browser********/
 
 io.sockets.on('connection', function (socket) {// WebSocket Connection
-    console.log('A new client logged in.');
-
-    socket.on('disconnect', function () {
-	console.log('A user disconnected');
+	console.log("new connection with a client")
+    socket.on('Hello Server I am a new client', function(data) { 
+		socket.emit('I RECEIVED YOU NEW CLIENT')
     });
-    
-
 }); 
-
-
  
 
 

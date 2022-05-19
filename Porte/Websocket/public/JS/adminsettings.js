@@ -8,39 +8,30 @@ let remote = document.getElementById('remotly')
 let local = document.getElementById('locally')
 var checkStates = [null, null, null, null, null];
 
-window.onload = function(){
+//const express = require('express')
+//const app = express()
+//const server = require('http').createServer(app)
+//var io = require('socket.io','net')(client) //require socket.io module and pass the http object (server)
+
+
+
+var socket = io(); //load socket.io-client and connect to the host that serves the page
+socket.on('connection', function (socket) {// WebSocket Connection
+    console.log('FROM CLIENT : a new client is connecting');
+    socket.emit('Hello Server I am a new client')
+
+    socket.on('I RECEIVED YOU NEW CLIENT', function(){
+        console.log("on a recu un feedback du server");
+    })
+    socket.on('base de donnees a jour'), function(){
+        console.log('le serveur nous envoie la base de données !!')
+    }
+    socket.on('disconnect', function () {
+	console.log('A user disconnected');
+    });
     
-}
-//admin.addEventListener('click', verifAdmin('coco')) // Récupérer le nom de l'admin dans la BDD ('coco' par défaut)
 
-// function inscription(){
-// 	// Récupération de l'id et du mdp
-// 	const id = document.getElementById('id').value
-// 	const password = document.getElementById('pwd').value
-// 	var exist = false
-
-// 	if(id=='' || password==''){
-// 	    alert("L'un des champs est vide")
-// 	}else{
-// 	    for(let i=0; i<usersInNetwork.length; i++){
-// 		if (usersInNetwork[i].id == id){
-// 		    document.getElementById('id').remove
-// 		    document.getElementById('pwd').remove
-// 		    exist = true
-// 		    alert('Identifiant déjà existant, connectez vous ou utilisez un autre identifiant.')
-// 		}
-// 	    }
-// 	    if(!exist){
-// 		db.run('INSERT INTO USERS(pseudo_USER, password_USER, access_history_USER, local_access_USER, remote_access_USER) VALUES(?,?,0,0,0)',[id, password])
-// 		usersInNetwork.push({id: id, pwd: password})
-// 	    }
-// 	//     for(let i=0; i<usersInNetwork.length; i++){
-// 	// 	alert(usersInNetwork[i] + ' ' +usersInNetwork[i].pwd)
-// 	// 	exist=false
-// 	//     }
-// 	}
-// }
-
+}); 
 
 function verifAdmin(id){
     if(id == tabtab[0].id){
@@ -168,35 +159,3 @@ function uncheckAll(myCheckbox){
     }
     returnCheckStates();
 }
-
-// (function (global) {
-//     document.getElementById('btn').addEventListener("click", function () {
-//         global.localStorage.setItem("mySharedData", document.getElementById("test").value);
-//     }, false);
-// }(window));
-
-// (function (global) {
-//     document.getElementById("test").value = global.localStorage.getItem("mySharedData");
-// }(window));
-
-
-
-
-// function bdd(){
-//     var sql = require('sqlite3')
-//     let db = new sql.Database('../../bdd.db', error => { //récupération de la base de donnée
-//         if (error)
-//             throw error
-//     })
-
-//     recupBDD(db).then((data) => data)
-
-// }
-
-// function recupBDD(db){
-//     return new Promise((resolve) => {
-//         async function test(){
-//             resolve("promise is working")
-//         }
-//     })
-// }
