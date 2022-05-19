@@ -5,6 +5,8 @@
 
 	
 var socket = io(); //load socket.io-client and connect to the host that serves the page
+var stateDoor = document.getElementById('stateDoor')
+
 window.addEventListener("load", function(){ //when page loads
   if( isMobile.any() ) {
 //    alert('Mobile');  
@@ -19,9 +21,10 @@ window.addEventListener("load", function(){ //when page loads
   
 });
 
-
-
-
+socket.on('nomClient', function(nom){
+  nom = nom[0].toUpperCase() + nom.slice(1)
+  document.getElementById('nomClient').innerHTML = nom
+})
 //Update gpio feedback when server changes LED state
 socket.on('gache', function (data) {  
 //  console.log('GPIO26 function called');
@@ -31,7 +34,6 @@ socket.on('gache', function (data) {
   document.getElementById('gache').checked = data;
 //  console.log('GPIO26: '+data.toString());
 });
-
 
 function ReportTouchStart(e) {
   var y = e.target.previousElementSibling;
@@ -73,6 +75,8 @@ function ReportMouseDown(e) {
  //   console.log("GPIO26 pressed");
     socket.emit("gache", 1); 
     document.getElementById('gache').checked = 1;
+    stateDoor.innerHTML = "Porte déverrouillée"
+    
   } 
 }
 
@@ -81,6 +85,7 @@ function ReportMouseUp(e) {
   if (e.target.id === "gacheM") {
     socket.emit("gache", 0); 
     document.getElementById('gache').checked = 0;
+    stateDoor.innerHTML = "Porte verrouillée"
   }
 }
 

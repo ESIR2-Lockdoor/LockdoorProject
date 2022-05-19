@@ -2,9 +2,9 @@
   "name": "portes",
   "version": "1.0.0",
   "description": "",
-  "main": "./public/webserver3.js",
+  "main": "./public/webserver.js",
   "scripts": {
-    "watch": "nodemon webserver3.js"
+    "watch": "nodemon webserver.js"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.17.3",
     "nedb": "^1.8.0",
+    "onoff": "^6.0.3",
     "socket.io": "^4.5.0",
     "sqlite3": "^5.0.8",
     "ws": "^8.5.0"
