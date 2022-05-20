@@ -129,6 +129,11 @@ app.get('/JSsend', (req, res) => {
     res.sendFile(`${__dirname}/public/JS/send.js`)
 })
 
+app.get('/adminsettings', (req, res) => {
+    res.set('Content-Type', 'text/javascript')
+    res.sendFile(`${__dirname}/public/JS/adminsettings.js`)
+})
+
 app.get('/main', (req, res) => {
     res.set('Content-Type', 'text/javascript')
     res.sendFile(`${__dirname}/public/JS/main.js`)
