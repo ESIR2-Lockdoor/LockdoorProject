@@ -14,7 +14,7 @@ var pass
 var historyAccess
 var remoteAccess
 var localAccess
- 
+var idUser
 
 app.use(bodyParser.urlencoded({
     extended:true
@@ -24,6 +24,7 @@ const {Users} = require('./Classe/Users')
 var usersInNetwork = []
 
 const sqlite3 = require('sqlite3')
+const { createSocket } = require('dgram')
 
 let db = new sqlite3.Database('../../mybdd.db', error => {
 	if (error){throw error}
@@ -31,7 +32,6 @@ let db = new sqlite3.Database('../../mybdd.db', error => {
 
 getBDD(db).then((data) => {
 	console.log("data : " + data) // affiche un tableau de noms
-
 })
 /****** CONSTANTS******************************************************/
 
@@ -132,6 +132,11 @@ app.get('/JSsend', (req, res) => {
 app.get('/main', (req, res) => {
     res.set('Content-Type', 'text/javascript')
     res.sendFile(`${__dirname}/public/JS/main.js`)
+})
+
+app.get('/connexionjs', (req, res) => {
+    res.set('Content-Type', 'text/javascript')
+    res.sendFile(`${__dirname}/public/JS/connexion.js`)
 })
 
 // CSS
@@ -245,13 +250,44 @@ function getBDD(db){
 			localAccess = await getUsers(db, "local_access_USER")
 			
 			return await putBDDintoTables()
-			// let pwd = await getUsers(db, "password_USER")
 		}
 		resolve(final(db))
 	})
 }
 
+function getHistory(){
+	switch(user){
+		case 'coco':
+			idUser = 1
+			break
+		case 'theo':
+			idUser = 2
+			break
+		case 'mathis':
+			idUser = 3
+			break
+		default :
+	}
+	return new Promise((resolve) => {
+		db.all('SELECT action_HISTORY,time_HISTORY FROM HISTORY WHERE id_USER=?',[idUser], (err, data) => {
+			if(err) throw err
+			var res = []
+			data.forEach(result => {
+				res.push({actionH: result.action_HISTORY, timeH: result.time_HISTORY})
+			})
+			resolve(res)
+		})
+	})
+}
 
+function getStateDoor(){
+	return new Promise((resolve) => {
+		db.all('SELECT state_DOOR FROM DOORS WHERE id_DOOR=1', (err, data) => {
+			if(err) throw err
+			resolve(data)
+		})
+	})
+}
 
 function inscription(id, password){
 	var exist = false
@@ -283,10 +319,11 @@ function verifConnect(id, password){
 		console.log("L'un des champs est vide")
 	} else {
 		for(let i = 0; i<usersInNetwork.length; i++){
-			if(usersInNetwork[i].name == id && usersInNetwork[i].pwd == password){
+			if(usersInNetwork[i].name == id && usersInNetwork[i].pwd == password){ // le client est autorisé à se connecter
 				user = usersInNetwork[i].name
 				console.log("ID trouvé " + usersInNetwork[i].name + " son mdp est " + usersInNetwork[i].pwd)
 				console.log("return true")
+				newConnexion = true
 				return true;
 			}
 		}
@@ -297,10 +334,26 @@ function verifConnect(id, password){
 
 /****** io.socket is the websocket connection to the client's browser********/
 
+
 io.sockets.on('connection', function (socket) {// WebSocket Connection
-    console.log('A new client has connectioned. Send LED status');
-	socket.id = user
-	socket.emit('nomClient', socket.id)
+	console.log('A new client has connectioned. Send LED status');
+
+	// if(clientsConnectes.length != 0){
+	// 	let userAlreadyConnected = false
+	// 	for(let i = 0; i<clientsConnectes.length; i++){
+	// 		if(clientsConnectes[i] == user){
+	// 			userAlreadyConnected = true
+	// 			socket.emit('nomClient', user)
+	// 		}
+	// 	}
+	// 	if(!userAlreadyConnected){
+	// 		clientsConnectes.push(user) //ajout du nom du client connecté
+	// 		socket.emit('nomClient', user)
+	// 	}
+	// }else{
+	// 	clientsConnectes.push(user) //ajout du nom du client connecté
+	// }
+	
 
 //    gachevalue = 0;
 //  rfid.watch(function(err, value){
@@ -325,25 +378,79 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 // 	    console.log('Changement etat de la gache avec website');
 // 	    io.emit('gache', gachevalue); //send button status to ALL clients
 //     });
-    
-//     // this gets called whenever client presses GPIO26 momentary light button
-    socket.on('gache', function(data) { 
-	gachevalue = data;
-	console.log(gachevalue)
+
+	socket.on('IWantMyName', function() {
+		socket.emit('nomClient', user)
+	})
+
+	socket.on('getHistory', function(){
+		getHistory().then((data) => {
+			console.log(data)
+			socket.emit('history', data)
+		})
+	})
+     // this gets called whenever client presses GPIO26 momentary light button
+	socket.on('gache', function(data) { 
+		gachevalue = data;
+		console.log(gachevalue)
+		db.run('UPDATE DOORS SET state_DOOR=? WHERE id_DOOR=1',[gachevalue])
 		// if (gachevalue != gache.readSync()) { //only change LED if status has changed
 		// 	gache.writeSync(gachevalue); //turn LED on or off
 		// 	console.log('Changement etat de la gache en simultané');
 		// 	io.emit('gache', gachevalue); //send button status to ALL clients 
 		// };	
-    });
-    //Whenever someone disconnects this piece of code executed
-    socket.on('disconnect', function () {
+		// let idUser
+		// db.all('SELECT id_USER FROM USERS WHERE pseudo_USER=?', [user], (err, data) => {
+		// 	if(err) throw err
+
+		// 	idUser = data
+		// 	console.log('idUser = ' + idUser)
+		// })
+		
+		switch(user){
+			case 'coco':
+				idUser = 1
+				break
+			case 'theo':
+				idUser = 2
+				break
+			case 'mathis':
+				idUser = 3
+				break
+			default :
+
+		}
+
+		let actionHistory
+		if(gachevalue == 1){
+			actionHistory = "a déverrouillé la porte"
+		}else{
+			actionHistory = "a verrouillé la porte"
+		}
+
+		let dateUnless10
+		if(new Date().getMinutes() < 10){
+			dateUnless10 = new Date().getHours() + ':0'+ new Date().getMinutes() 
+		}else {
+			dateUnless10 = new Date().getHours() + ':' + new Date().getMinutes()
+		}
+		db.run('INSERT INTO HISTORY(id_USER, id_DOOR, action_HISTORY, time_HISTORY) VALUES(?,?,?,?)',[idUser, 1, actionHistory, dateUnless10])
+
+	});
+
+	socket.on('IWantStateDoor', function() {
+		getStateDoor().then((data) => {
+			socket.emit('stateDoor', data)
+		})
+	})
+	// socket.emit('nomClient', user)
+	//Whenever someone disconnects this piece of code executed
+	socket.on('disconnect', function () {
 	console.log('A user disconnected');
-    });
-    
+	});
+	
 
 }); 
-
 
  
 
