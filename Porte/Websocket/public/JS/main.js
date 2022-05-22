@@ -7,6 +7,7 @@ var socket = io(); //load socket.io-client and connect to the host that serves t
 
 // Etat de la porte page Home
 var stateDoor = document.getElementById('stateDoor')
+var globalH = document.getElementById('globalHistory')
 
 // navbar
 var myProfil = document.getElementById('myProfil')
@@ -73,14 +74,22 @@ socket.on('history', function(data){
 })
 
 socket.on('stateDoor', function(data) {
+    data = JSON.parse(data)
     var gache = document.getElementById('gache')
-    if(data[0].state_DOOR==1){
+    if(data.state==1){
         gache.checked = 1
         stateDoor.innerHTML = "Porte déverrouillée"
     }else{
         gache.checked = 0
         stateDoor.innerHTML = "Porte verrouillée"
     }
+    let elem = '\n'
+    console.log(data.data.length)
+    for(let i=0; i<data.data.length; i++){
+      console.log(elem)
+      elem = data.data[i].pseudo + ' ' + data.data[i].actionH + ' à '+ data.data[i].timeH + '\n' + '<br>' + elem
+    }
+    globalH.innerHTML = elem
 })
 
 socket.on('NoAccessStateDoor', function(){
@@ -121,6 +130,11 @@ socket.on('pseudoFound', function(data){
   message.innerHTML = "Mis à jour des paramètres de l'utilisateur " + data + " réussie."
 })
 
+socket.on('deleteUser', function(data){
+  let message = document.getElementById('message')
+  message.innerHTML = data + " a été supprimé de la base de données."
+})
+
 //Update gpio feedback when server changes LED state
 socket.on('gache', function (data) {  
 //  console.log('GPIO26 function called');
@@ -156,7 +170,7 @@ socket.on('gache', function (data) {
 // }
 
 function setSettings(){
-  socket.emit('setSettings', JSON.stringify({pseudo: pseudo.value, history: state.checked, remote: remote.checked, local: locally.checked}))
+  socket.emit('setSettings', JSON.stringify({pseudo: pseudo.value, delete: delete_user.checked, history: state.checked, remote: remote.checked, local: locally.checked}))
 }
 function ReportMouseDown(e) {
   

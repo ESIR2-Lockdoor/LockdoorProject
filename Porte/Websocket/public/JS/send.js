@@ -36,7 +36,6 @@ window.onload = function(){
 // 	//     }
 // 	}
 // }
-submitSettings.addEventListener('onclick', setSettings)
 
 function setSettings(){
     console.log(delete_user.checked)

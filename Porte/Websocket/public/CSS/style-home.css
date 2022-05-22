@@ -58,3 +58,20 @@ input:checked[type="checkbox"]{
 input:checked[type="checkbox"]:before{
     left: 12px;
 } */
+
+#globalHistory{
+    position: absolute;
+    top: 100px;
+    left: 500px;
+    color:black;
+    width: 300px;
+    text-align: left;
+}
+
+#historyTitle{
+    position: absolute;
+    top: 65px;
+    left: 500px;
+    color:#41C091;
+    font-size: 30px;
+}

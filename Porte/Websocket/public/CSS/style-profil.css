@@ -10,4 +10,5 @@ body{
 #history{
     position: absolute;
     margin: 250px;
+    width: auto;
 }
