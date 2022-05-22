@@ -37,14 +37,18 @@ Afin d'assurer un maximum d'intéraction entre l'utilisateur et l'interface web,
 
 1. Cloner le répertoire
    ```sh
-   git clone https://github.com/ESIR2-RESIoT/project.git
+   git clone https://github.com/ESIR2-Lockdoor/LockdoorProject.git
    ```
-2. Ouvrir le répertoire avec IntelliJ
-3. Ajouter une nouvelle configuration sur le logiciel :
-![Screenshot](architecture/intellij/configuration1.png)
-![Screenshot](architecture/intellij/configuration2.png)
-6. Se connecter au routeur de la maquette KNX, puis lancer la configuration. La console indiquera que la connexion a la maquette KNX est bien effectuée
-7. Ouvrir l'interface web depuis votre navigateur avec l'url http://localhost:8080
+2. Se positionner dans le répertoire LockdoorProject/Porte/Websocket
+3. Installer les librairies suivantes à votre répertoire :
+   ```sh
+   npm install express
+   npm install -D nodemon
+   npm install onoff
+   npm install socket.io
+
+   ```
+4. Ouvrir l'interface web depuis votre navigateur avec l'url http://localhost:8080
 
 ## Installation de l'application mobile
 Installer l'APK qui se trouve dans le dossier mobile_app
