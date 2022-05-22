@@ -51,8 +51,7 @@ Installer l'APK qui se trouve dans le dossier Application
 
 ## Architecture
 Nous pouvons voir ci-dessous l'architecture général du projet :
- ![Screenshot](documentation/architecture/architecture_generale.png) 
- ![Screenshot](architecture/architecture.png)
+ ![Screenshot](documentation/Architecture/Architecture.png) 
 
 ## Contact
 
