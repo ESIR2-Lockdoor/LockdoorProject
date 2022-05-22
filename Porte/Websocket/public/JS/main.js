@@ -1,13 +1,28 @@
 
 
-
 /************PROCESS DATA TO/FROM Client****************************/
 
 	
 var socket = io(); //load socket.io-client and connect to the host that serves the page
+
+// Etat de la porte page Home
 var stateDoor = document.getElementById('stateDoor')
+
+// navbar
 var myProfil = document.getElementById('myProfil')
 var home = document.getElementById('home')
+var settings = document.getElementById('settings')
+
+// Page Settings
+var pseudo = document.getElementById('pseudo')
+var delete_user = document.getElementById('delete_user')
+var all_rights = document.getElementById('all_rights')
+var state = document.getElementById('state')
+var remote = document.getElementById('remotly')
+var locally = document.getElementById('locally')
+var checkStates = [null, null, null, null, null];
+var submitSettings = document.getElementById('btnSub')
+
 var nameOfClient
 // var name = document.getElementById('nomClient').split(' ')[1]
 window.addEventListener("load", function(){ //when page loads
@@ -23,18 +38,21 @@ window.addEventListener("load", function(){ //when page loads
   }
   
 });
-
 // socket.on('nomClient', function(nom){
 //   nom = nom[0].toUpperCase() + nom.slice(1) 
 //   document.getElementById('nomClient').innerHTML = "Bonjour " + nom
 // })
 
+if(home.className == "is-active"){
+    socket.emit('IWantStateDoor')
+}
+
 if(myProfil.className == "is-active"){
     socket.emit('IWantMyName')
 }
 
-if(home.className == "is-active"){
-    socket.emit('IWantStateDoor')
+if(settings.className == "is-active"){
+  socket.emit('IWantAdmin')
 }
 
 socket.on('nomClient', function(nom){
@@ -64,6 +82,45 @@ socket.on('stateDoor', function(data) {
         stateDoor.innerHTML = "Porte verrouillée"
     }
 })
+
+socket.on('NoAccessStateDoor', function(){
+  document.getElementById('gache').style.display = "none"
+  document.getElementById('gacheM').style.display = "none"
+  stateDoor.innerHTML = "Demandez au propriétaire de la porte si vous voulez connaitre l'état de la porte"
+})
+
+socket.on('admin', function(data){
+  data = JSON.parse(data)
+
+  if(data.data[0].pseudo_USER != data.user){ // nameOfClient est disponible que si le client a ouvert la page myProfil
+    pseudo.disabled = true
+    delete_user.disabled = true
+    all_rights.disabled = true
+    state.disabled = true
+    remotly.disabled = true
+    locally.disabled = true
+    submitSettings.style.display = "none";
+  }
+
+  socket.emit('IWantAccess')
+})
+
+socket.on('access', function(data){
+  state.checked = data[0].history
+  remotly.checked = data[0].remote
+  locally.checked = data[0].local
+})
+
+socket.on('pseudoNotFound', function(data){
+  let message = document.getElementById('message')
+  message.innerHTML = "ID lockdoor introuvable : " + data
+})
+
+socket.on('pseudoFound', function(data){
+  let message = document.getElementById('message')
+  message.innerHTML = "Mis à jour des paramètres de l'utilisateur " + data + " réussie."
+})
+
 //Update gpio feedback when server changes LED state
 socket.on('gache', function (data) {  
 //  console.log('GPIO26 function called');
@@ -98,6 +155,9 @@ socket.on('gache', function (data) {
 //   }
 // }
 
+function setSettings(){
+  socket.emit('setSettings', JSON.stringify({pseudo: pseudo.value, history: state.checked, remote: remote.checked, local: locally.checked}))
+}
 function ReportMouseDown(e) {
   
   var y = e.target.previousElementSibling;
@@ -132,7 +192,37 @@ function TouchMove(e) {
 
 }
 
+function checkAll(){
+  if(all_rights.checked){
+      state.checked = true
+      locally.checked = true
+      remote.checked = true
+  }else{   
+      state.checked = false
+      locally.checked = false
+      remote.checked = false
+  }
+  returnCheckStates();
+}
 
+function returnCheckStates(){
+  checkStates[0] = delete_user.checked
+  checkStates[1] = all_rights.checked
+  checkStates[2] = state.checked
+  checkStates[3] = remote.checked
+  checkStates[4] = locally.checked
+  console.log("etat des checkbox : ", checkStates)
+  return checkStates;
+}
+
+function uncheckAll(myCheckbox){
+  // let all = document.getElementById('all_rights')
+  
+  if(!myCheckbox.checked){
+      all_rights.checked = false
+  }
+  returnCheckStates();
+}
 
 /** function to sense if device is a mobile device ***/
 // Reference: https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser

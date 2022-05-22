@@ -81,13 +81,29 @@ input[type="button"]:hover{
     margin-left: 30px;
 }
 
-select{
+input[type="text"]{
     font-size: 18px;
     background: #c4c4c4;
     border-radius: 10px;
-    text-align: center;
+    text-align: left;
+    text-indent: 5px;
 }
 
 option{
     font-size: 15px;
+}
+
+#btnSub{
+    position: relative;
+    margin: 30px;
+    width: 100px;
+    height: auto;
+    border-radius: 10px;
+    font-size: 20px;
+    text-align: center;
+    color: #111B47;
+}
+
+#btnSub:hover{
+    background: #41C091;
 }

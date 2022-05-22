@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="/navbar"></link>
         <link rel="stylesheet" href="/style-settings"></link>
         <link rel="stylesheet" href="/multiselect"></link>
-        <link rel="stylesheet" href="/getbdd"></link>
+        <!-- <link rel="stylesheet" href="/getbdd"></link> -->
     </head>
     <body>
         <nav class="menu">
@@ -27,10 +27,7 @@
             <h1>Gestion des droits utilisateurs</h1>
             <div class="select-user">
                 <p>ID Lockdoor : 
-                    <select class="prenom">
-                        <option value="theo">Theo</option>
-                        <option value="mathis">Mathis</option>
-                    </select>
+                    <input id="pseudo" type="text"></input>
                     Supprimer l'utilisateur
                     <input id="delete_user" type="checkbox" onclick="returnCheckStates()">
                 </p>
@@ -51,126 +48,13 @@
                     <input id="locally"type="checkbox" onchange="uncheckAll(this)"><br><br>
                 </li>
             </div>
-            <!-- <div id="hour-range">
-                <h1>Plage horaire d'application des droits</h1>
-                <p>
-                    <input id="all_day" type="radio" name="select_time" value="all_day" checked>
-                    <label for="all_day">Toute la journée</label>
-                </p>
-                <p id="select_period"><input id="original_hours_range" name="select_time" type="radio" value="hours_range">
-                    <label for="original_hours_range">De</label>
-                    <select name="hours">
-                        <option value="00">00</option>
-                        <option value="01">01</option>
-                        <option value="02">02</option>
-                        <option value="03">03</option>
-                        <option value="04">04</option>
-                        <option value="05">05</option>
-                        <option value="06">06</option>
-                        <option value="07">07</option>
-                        <option value="08">08</option>
-                        <option value="09">09</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
-                    </select>
-                    h
-                    <select name="minutes_range">
-                        <option value="00">00</option>
-                        <option value="05">05</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                        <option value="25">25</option>
-                        <option value="30">30</option>
-                        <option value="35">35</option>
-                        <option value="40">40</option>
-                        <option value="45">45</option>
-                        <option value="50">50</option>
-                        <option value="55">55</option>
-                    </select>
-                        à
-                    <select name="hours">
-                        <option value="00">00</option>
-                        <option value="01">01</option>
-                        <option value="02">02</option>
-                        <option value="03">03</option>
-                        <option value="04">04</option>
-                        <option value="05">05</option>
-                        <option value="06">06</option>
-                        <option value="07">07</option>
-                        <option value="08">08</option>
-                        <option value="09">09</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
-                    </select>
-                    h
-                    <select name="minutes">
-                        <option value="00">00</option>
-                        <option value="05">05</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                        <option value="25">25</option>
-                        <option value="30">30</option>
-                        <option value="35">35</option>
-                        <option value="40">40</option>
-                        <option value="45">45</option>
-                        <option value="50">50</option>
-                        <option value="55">55</option>
-                    </select>
-                    <input type="button" id="add_hours" value="Ajouter un créneau">
-                </p>
-                <p>
-                    <form>
-                        <div class="multiselect">
-                            <div class="selectBox" onclick="showCheckBoxes()">
-                                Le
-                                <select>
-                                    <option>Select days</option>
-                                </select>
-                                <div class="overSelect"></div>
-                            </div>
-                            <div id="checkboxes">
-                                <label for="lundi"><input type="checkbox" id="lundi"/>Lundi</label>
-                                <label for="mardi"><input type="checkbox" id="mardi"/>Mardi</label>
-                                <label for="mercredi"><input type="checkbox" id="mercredi"/>Mercredi</label>
-                                <label for="jeudi"><input type="checkbox" id="jeudi"/>Jeudi</label>
-                                <label for="vendredi"><input type="checkbox" id="vendredi"/>Vendredi</label>
-                                <label for="samedi"><input type="checkbox" id="samedi"/>Samedi</label>
-                                <label for="dimanche"><input type="checkbox" id="dimanche"/>Dimanche</label>
-                            </div>
-                        </div>
-                    </form>
-                </p>
-            </div> -->
-            
-            <input type="button" id="submit" value="Submit"> <!--  onclick="submit()">-->
+            <div>
+                <div id="message"></div>
+                <input type="button" id="btnSub" value="Submit" onclick="setSettings()"></input>
+            </div>
         </div>
+        <!-- <script src="/JSsend"></script> -->
         <script src="/socket.io/socket.io.js"></script>
-        <script src="/adminsettings"></script>
+        <script src="/main"></script>
     </body>
 </html>

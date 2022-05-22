@@ -260,6 +260,19 @@ function getBDD(db){
 	})
 }
 
+function getAccess(){
+	return new Promise((resolve) => {
+		db.all('SELECT access_history_USER, local_access_USER, remote_access_USER FROM USERS WHERE pseudo_USER=?', [user], (err, data) => {
+			if(err)throw err
+			var res = []
+			data.forEach(element => {
+				res.push({history: element.access_history_USER, remote: element.remote_access_USER, local: element.local_access_USER})
+			})
+			resolve(res)
+		})
+	})
+
+}
 function getHistory(){
 	switch(user){
 		case 'coco':
@@ -288,6 +301,15 @@ function getHistory(){
 function getStateDoor(){
 	return new Promise((resolve) => {
 		db.all('SELECT state_DOOR FROM DOORS WHERE id_DOOR=1', (err, data) => {
+			if(err) throw err
+			resolve(data)
+		})
+	})
+}
+
+function getAdmin(){
+	return new Promise((resolve) => {
+		db.all('SELECT pseudo_USER FROM USERS WHERE id_USER=1', (err, data) => {
 			if(err) throw err
 			resolve(data)
 		})
@@ -385,6 +407,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 //     });
 
 	socket.on('IWantMyName', function() {
+
 		socket.emit('nomClient', user)
 	})
 
@@ -444,9 +467,45 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 	});
 
 	socket.on('IWantStateDoor', function() {
-		getStateDoor().then((data) => {
-			socket.emit('stateDoor', data)
+		getAccess().then((data) => {
+			console.log(!data[0].history)
+			if(data[0].history != 0){
+				getStateDoor().then((data) => {
+					socket.emit('stateDoor', data)
+				})
+			}else{
+				socket.emit('NoAccessStateDoor')
+			}
 		})
+		
+	})
+
+	socket.on('IWantAdmin', function(){
+		getAdmin().then((data) => {
+			socket.emit('admin', JSON.stringify({data: data, user: user}))
+		})
+	})
+
+	socket.on('IWantAccess', function(){
+		getAccess().then((data) => {
+			socket.emit('access', data)
+		})
+	})
+
+	socket.on('setSettings', function(data){
+		data = JSON.parse(data)
+		let exist = false
+		for(let i=0; i<usersInNetwork.length; i++){
+			if(data.pseudo == usersInNetwork[i].name) {
+				exist = true
+			}
+		}
+		if(!exist){
+			socket.emit('pseudoNotFound', data.pseudo)
+		}else{
+			db.run('UPDATE USERS SET access_history_USER=?,local_access_USER=?,remote_access_USER=? WHERE pseudo_USER=?',[data.history, data.local, data.remote, data.pseudo])
+			socket.emit('pseudoFound', data.pseudo)
+		}
 	})
 	// socket.emit('nomClient', user)
 	//Whenever someone disconnects this piece of code executed
