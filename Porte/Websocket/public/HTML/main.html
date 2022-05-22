@@ -10,17 +10,66 @@
         <link rel="shortcut icon" >
     </head>
     <body>
-        <div class="page">
-            <div class="log">
-                <a class="btn" href="connexion">Se Connecter</a>
-                <a class="btn" href="inscription">S'inscrire</a>
-                <!-- <input id="btnLogin" type="button" value="Se Connecter">
-                <input id="btnSignin" type="button" value="S'inscrire" onclick=""> -->
-            </div>
-            <div class="welcome">
-                <th>Bonjour et bienvenue</th>
-            </div>
-            <script src="/JSsend"></script>
+        <div id="welcome">
+            <th>Bonjour et bienvenue</th>
         </div>
+        <div id="log">
+            <div class="divbutton">
+                <a class="btn" href="connexion">Se Connecter</a>
+            </div>
+            <div class="divbutton">
+                <a class="btn" href="inscription">S'inscrire</a>
+            </div>
+            <div class="img">
+                <img id="imgdoor" src="imgdoor">
+            </div>
+        </div>
+        <style>
+            body{
+            background-color: #111b47c7;
+            margin : 0 auto;
+            text-align: center;
+            position: relative;
+            box-sizing: border-box;
+            font-family: 'Fira sans', sans-serif;
+            }
+
+            #welcome{
+            background-color: #111B47;
+            height: 80px;
+            width: 10%;
+            color :#41C091;
+            display: table-cell;
+            vertical-align: middle;
+            font-size: x-large;
+            font-weight: 750;
+            }
+            .divbutton{
+                background-color: #111B47;
+                color :#41C091;
+                width: 50%;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 100px;
+                height: 40px;
+                vertical-align: middle;
+                font-size: larger;
+                font-weight: 550;
+                border-radius: 15px;
+                cursor: pointer;
+                line-height: 40px;
+            }
+            .btn{
+                color :#41C091;
+                outline: none;
+                text-decoration: none;
+            }   
+            #imgdoor{
+            width: 15%;
+            margin-top: 50px;
+            margin-right: 20px;
+            }
+        </style>
+        <script src="/JSsend"></script>
     </body>
 </html>
