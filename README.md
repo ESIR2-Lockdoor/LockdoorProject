@@ -1,7 +1,7 @@
-<h1>Lockdoor</h1>
+<h1>Projet RESIoT</h1>
 <!-- TABLE OF CONTENTS -->
 <details open="open">
-  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
+  <summary><h2 style="display: inline-block">Table des matières</h2></summary>
   <ol>
     <li><a href="#Présentation">Présentation</a></li>
     <li><a href="#Fonctionnalités">Fonctionnalités</a></li>
@@ -43,7 +43,8 @@ Afin d'assurer un maximum d'intéraction entre l'utilisateur et l'interface web,
 3. Ajouter une nouvelle configuration sur le logiciel :
 ![Screenshot](architecture/intellij/configuration1.png)
 ![Screenshot](architecture/intellij/configuration2.png)
-6. Se connecter au routeur de la maquette KNX, puis lancer le serveur
+6. Se connecter au routeur de la maquette KNX, puis lancer la configuration. La console indiquera que la connexion a la maquette KNX est bien effectuée
+7. Ouvrir l'interface web depuis votre navigateur avec l'url http://localhost:8080
 
 ## Installation de l'application mobile
 Installer l'APK qui se trouve dans le dossier mobile_app
