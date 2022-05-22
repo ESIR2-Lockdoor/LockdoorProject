@@ -46,7 +46,11 @@ Le répertoire est composé de plusieurs dossiers qui composent le projet :
    npm install socket.io
 
    ```
-4. Ouvrir l'interface web depuis votre navigateur avec l'url http://localhost:8080
+4. Lancer le projet grâce à la commande 
+    ```sh
+   npm run watch
+    ```
+5. Ouvrir l'interface web depuis votre navigateur avec l'url http://localhost:8080
 
 ## Installation de l'application mobile
 Installer l'APK qui se trouve dans le dossier Application
