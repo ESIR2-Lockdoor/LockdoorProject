@@ -1,4 +1,4 @@
-<h1>Projet Lockdoor</h1>
+<h1>Projet LockDoor</h1>
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table des matières</h2></summary>
@@ -47,15 +47,15 @@ Afin d'assurer un maximum d'intéraction entre l'utilisateur et l'interface web,
 7. Ouvrir l'interface web depuis votre navigateur avec l'url http://localhost:8080
 
 ## Installation de l'application mobile
-Installer l'APK qui se trouve dans le dossier mobile_app
+Installer l'APK qui se trouve dans le dossier Application
 
 ## Architecture
-
 Nous pouvons voir ci-dessous l'architecture général du projet :
- ![Screenshot](architecture/architecture_generale.png) 
+ ![Screenshot](documentation/architecture/architecture_generale.png) 
  ![Screenshot](architecture/architecture.png)
 
 ## Contact
 
 [@Mathis Certenais](https://www.linkedin.com/in/mathiscertenais/)
-[@Mateo Fontanel](https://www.linkedin.com/in/mat%C3%A9o-fontanel-2913b914a/?originalSubdomain=fr)
+[@Corentin Grosos](https://www.linkedin.com/in/corentin-grosos-8092a719b/?originalSubdomain=fr)
+[@Théo Delagarde](https://www.linkedin.com/in/th%C3%A9o-delagarde-029a35188/)
