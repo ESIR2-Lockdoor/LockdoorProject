@@ -378,46 +378,30 @@ function verifConnect(id, password){
 io.sockets.on('connection', function (socket) {// WebSocket Connection
 	console.log('A new client has connectioned. Send LED status');
 
-	// if(clientsConnectes.length != 0){
-	// 	let userAlreadyConnected = false
-	// 	for(let i = 0; i<clientsConnectes.length; i++){
-	// 		if(clientsConnectes[i] == user){
-	// 			userAlreadyConnected = true
-	// 			socket.emit('nomClient', user)
-	// 		}
+   	// gachevalue = 0;
+ 	// rfid.watch(function(err, value){
+    //     if(err){
+    //         console.error('There was an error', err);
+	//     	return;
 	// 	}
-	// 	if(!userAlreadyConnected){
-	// 		clientsConnectes.push(user) //ajout du nom du client connecté
-	// 		socket.emit('nomClient', user)
-	// 	}
-	// }else{
-	// 	clientsConnectes.push(user) //ajout du nom du client connecté
-	// }
-	
+	// 	if (gachevalue) gachevalue = 0;
+	// 	else gachevalue = 1;
+	// 	gachevalue = value;
+	// 	socket.emit('gache', gachevalue);
+	// 	gache.writeSync(gachevalue);
+	// 	console.log('Changement etat de la gache avec rfid');
+	// 	io.emit('gache', gachevalue);
+	// });
 
-//    gachevalue = 0;
-//  rfid.watch(function(err, value){
-//         if(err){
-//             console.error('There was an error', err);
-// 	    return;
-// 	}
-// 	//if (gachevalue) gachevalue = 0;
-// 	//else gachevalue = 1;
-// 	gachevalue = value;
-//         socket.emit('gache', gachevalue);
-//  	gache.writeSync(gachevalue);
-//         console.log('Changement etat de la gache avec rfid');
-//         //io.emit('gache', gachevalue);
-//     });
-//     // this gets called whenever client presses GPIO26 toggle light button
-//     socket.on('gacheT', function(data) { 
-// 	if (gachevalue) gachevalue = 0;
-// 	else gachevalue = 1;
-// 	console.log('new gache value='+gachevalue);
-// 	    gache.writeSync(gachevalue); //turn LED on or off
-// 	    console.log('Changement etat de la gache avec website');
-// 	    io.emit('gache', gachevalue); //send button status to ALL clients
-//     });
+	// // this gets called whenever client presses GPIO26 toggle light button
+	// socket.on('gacheT', function(data) { 
+	// 	if (gachevalue) gachevalue = 0;
+	// 	else gachevalue = 1;
+	// 	console.log('new gache value='+gachevalue);
+	// 	gache.writeSync(gachevalue); //turn LED on or off
+	// 	console.log('Changement etat de la gache avec website');
+	// 	io.emit('gache', gachevalue); //send button status to ALL clients
+    // });
 
 	socket.on('IWantMyName', function() {
 
