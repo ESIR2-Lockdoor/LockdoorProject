@@ -25,13 +25,11 @@ Plusieurs étapes permettent de mener à bien le projet :
 6. Communication serveur - maquette KNX
 
 
-## Fonctionnalités
-
-Afin d'assurer un maximum d'intéraction entre l'utilisateur et l'interface web, nous avons développé des fonctionnalités :
-1. Connexion - Déconnexion à la maquette
-2. Allumer - Éteindre les LED
-3. Changer le mode de fonctionnement (chenillard de gauche vers la droite et inversement, mode flipper et random)
-4. Augmenter - Diminuer la vitesse
+## Composition du répertoire
+Le répertoire est composé de plusieurs dossiers qui composent le projet :
+1. Documentation qui recense le délivrable, mais aussi les travaux de recherches, la maquette de l'interface web, les schémas explicatifs et la gestion de projet.
+2. BDD qui contient la base de données du projet
+3. Porte qui contient le software du projet, c'est à dire le code pour l'implémentation du module RFID, NFC mais aussi l'interface web et le webserver.
 
 ## Installation et lancement du projet
 
