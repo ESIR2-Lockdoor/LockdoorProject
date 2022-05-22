@@ -1,4 +1,4 @@
-<h1>Projet Lockdoor</h1>
+<h1>Projet LockDoor</h1>
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table des matières</h2></summary>
@@ -25,13 +25,11 @@ Plusieurs étapes permettent de mener à bien le projet :
 6. Communication serveur - maquette KNX
 
 
-## Fonctionnalités
-
-Afin d'assurer un maximum d'intéraction entre l'utilisateur et l'interface web, nous avons développé des fonctionnalités :
-1. Connexion - Déconnexion à la maquette
-2. Allumer - Éteindre les LED
-3. Changer le mode de fonctionnement (chenillard de gauche vers la droite et inversement, mode flipper et random)
-4. Augmenter - Diminuer la vitesse
+## Composition du répertoire
+Le répertoire est composé de plusieurs dossiers qui composent le projet :
+1. Documentation qui recense le délivrable, mais aussi les travaux de recherches, la maquette de l'interface web, les schémas explicatifs et la gestion de projet.
+2. BDD qui contient la base de données du projet
+3. Porte qui contient le software du projet, c'est à dire le code pour l'implémentation du module RFID, NFC mais aussi l'interface web et le webserver.
 
 ## Installation et lancement du projet
 
@@ -51,15 +49,14 @@ Afin d'assurer un maximum d'intéraction entre l'utilisateur et l'interface web,
 4. Ouvrir l'interface web depuis votre navigateur avec l'url http://localhost:8080
 
 ## Installation de l'application mobile
-Installer l'APK qui se trouve dans le dossier mobile_app
+Installer l'APK qui se trouve dans le dossier Application
 
 ## Architecture
-
 Nous pouvons voir ci-dessous l'architecture général du projet :
- ![Screenshot](architecture/architecture_generale.png) 
- ![Screenshot](architecture/architecture.png)
+ ![Screenshot](Documentation/Architecture/Architecture.png) 
 
 ## Contact
 
 [@Mathis Certenais](https://www.linkedin.com/in/mathiscertenais/)
-[@Mateo Fontanel](https://www.linkedin.com/in/mat%C3%A9o-fontanel-2913b914a/?originalSubdomain=fr)
+[@Corentin Grosos](https://www.linkedin.com/in/corentin-grosos-8092a719b/?originalSubdomain=fr)
+[@Théo Delagarde](https://www.linkedin.com/in/th%C3%A9o-delagarde-029a35188/)
