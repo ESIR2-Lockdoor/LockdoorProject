@@ -93,7 +93,7 @@ socket.on('stateDoor', function(data) {
 })
 
 socket.on('NoAccessStateDoor', function(){
-  document.getElementById('gache').style.display = "none"
+  // document.getElementById('gache').style.display = "none"
   document.getElementById('gacheM').style.display = "none"
   stateDoor.innerHTML = "Demandez au propriétaire de la porte si vous voulez connaitre l'état de la porte"
 })
