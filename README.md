@@ -28,7 +28,8 @@ Le répertoire est composé de plusieurs dossiers qui composent le projet :
 1. Documentation qui recense le délivrable, mais aussi les travaux de recherches, la maquette de l'interface web, les schémas explicatifs et la gestion de projet.
 2. BDD qui contient la base de données du projet
 3. Porte qui contient le software du projet, c'est à dire le code pour l'implémentation du module RFID, NFC mais aussi l'interface web et le webserver.
-
+4. Application qui contient l'application mobile
+5. 
 ## Installation et lancement du projet
 
 1. Cloner le répertoire
