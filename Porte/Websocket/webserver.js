@@ -169,6 +169,13 @@ app.get('/style-profil', (req, res) => {
     res.set('Content-Type', 'text/css')
     res.sendFile(`${__dirname}/public/CSS/style-profil.css`)
 })
+
+//images
+app.get('/imgdoor', (req, res) => {
+    res.set('Content-Type', 'image/png')
+    res.sendFile(`${__dirname}/public/images/greendoor.png`)
+})
+
 /* if you want to run WebPort on a port lower than 1024 without running
  * node as root, you need to run following from a terminal on the pi
  * sudo apt update

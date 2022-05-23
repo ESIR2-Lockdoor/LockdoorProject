@@ -40,6 +40,13 @@ window.onload = function(){
 function setSettings(){
     console.log(delete_user.checked)
 }
+var oReq = new XMLHttpRequest();
+
+function getConnexion(){
+    console.log("get cacaca...")
+    oReq.open("GET", "/cacaca", true);
+    oReq.send();
+}
 // function verifAdmin(id){
 //     if(id == tabtab[0].id){
 //         document.getElementById('admin').href = "adminsettings"
