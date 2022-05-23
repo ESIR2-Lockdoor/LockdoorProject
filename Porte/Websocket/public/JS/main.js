@@ -66,7 +66,7 @@ socket.on('nomClient', function(nom){
 socket.on('history', function(data){
     var elementHistory = document.getElementById('history')
     let elem = '\n'
-    for(let i=0; i<data.length; i++){
+    for(let i=data.length-20; i<data.length; i++){
         elem = nameOfClient + ' ' + data[i].actionH + ' à '+ data[i].timeH + '\n' + '<br>' + elem  
     }
     elementHistory.innerHTML = elem
@@ -85,7 +85,7 @@ socket.on('stateDoor', function(data) {
     }
     let elem = '\n'
     console.log(data.data.length)
-    for(let i=0; i<data.data.length; i++){
+    for(let i=data.data.length-20; i<data.data.length; i++){
       console.log(elem)
       elem = data.data[i].pseudo + ' ' + data.data[i].actionH + ' à '+ data.data[i].timeH + '\n' + '<br>' + elem
     }
