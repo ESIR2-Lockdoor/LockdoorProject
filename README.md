@@ -13,17 +13,15 @@
 </details>
 
 ## Présentation
-
-Sur un module d'une vingtaine d'heure, nous avons réalisé un projet en lien avec la spécialité Internet of Things. L'objectif du projet est, à partir d'une page Internet ou de boutons poussoirs, de piloter la maquette KNX qui commande 4 LED. 
+Lors du module ProjetIoT d'une durée d'un an, nous avons réalisé un projet en lien avec la spécialité Internet of Things. L'objectif du projet est de réaliser une porte connectée qui peut être piloter en ligne à partir de l'interface web, ou bien sur place avec un lecteur de carte.
 
 Plusieurs étapes permettent de mener à bien le projet :
-1. Réalisation de l’architecture
-2. Choix des langages de programmation
-3. Création d'un serveur
-4. Création d'une page web pour commander la maquette KNX
-5. Communication client - serveur
-6. Communication serveur - maquette KNX
-
+1. Rédaction du cahier des charges
+2. Réalisation de l’architecture
+3. Choix des technologies de communication, des langages de programmation et du matériel
+4. Réalisation du prototype matérielle
+5. Réalisation du service avec une interface web
+6. Communication entre le prototype et le service
 
 ## Composition du répertoire
 Le répertoire est composé de plusieurs dossiers qui composent le projet :
@@ -60,7 +58,6 @@ Nous pouvons voir ci-dessous l'architecture général du projet :
  ![Screenshot](Documentation/Architecture/Architecture.png) 
 
 ## Contact
-
 [@Mathis Certenais](https://www.linkedin.com/in/mathiscertenais/)
 [@Corentin Grosos](https://www.linkedin.com/in/corentin-grosos-8092a719b/?originalSubdomain=fr)
 [@Théo Delagarde](https://www.linkedin.com/in/th%C3%A9o-delagarde-029a35188/)
