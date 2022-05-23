@@ -73,26 +73,15 @@ socket.on('history', function(data){
     
 })
 
-socket.on('stateDoor', function(data) {
-    data = JSON.parse(data)
-    var gache = document.getElementById('gache')
-    if(data.state==1){
-        gache.checked = 1
-        stateDoor.innerHTML = "Porte déverrouillée"
-    }else{
-        gache.checked = 0
-        stateDoor.innerHTML = "Porte verrouillée"
-    }
-    let elem = '\n'
-    console.log(data.data.length)
-    for(let i=data.data.length-20; i<data.data.length; i++){
-      console.log(elem)
-      elem = data.data[i].pseudo + ' ' + data.data[i].actionH + ' à '+ data.data[i].timeH + '\n' + '<br>' + elem
-    }
-    globalH.innerHTML = elem
+socket.on('historyHome', function(data){
+  let elem = '\n'
+  for(let i=data.data.length-20; i<data.data.length; i++){
+    elem = data.data[i].pseudo + ' ' + data.data[i].actionH + ' à '+ data.data[i].timeH + '\n' + '<br>' + elem
+  }
+  globalH.innerHTML = elem
 })
 
-socket.on('NoAccessStateDoor', function(){
+socket.on('NoAccessGache', function(){
   // document.getElementById('gache').style.display = "none"
   document.getElementById('gacheM').style.display = "none"
   stateDoor.innerHTML = "Demandez au propriétaire de la porte si vous voulez connaitre l'état de la porte"
@@ -143,7 +132,27 @@ socket.on('gache', function (data) {
 //  console.log(myJSON);
   document.getElementById('gache').checked = data;
 //  console.log('GPIO26: '+data.toString());
+  if(data==1){
+    stateDoor.innerHTML = "Porte déverrouillée"
+  }else{
+    stateDoor.innerHTML = "Porte verrouillée"
+  }
 });
+
+//Update gpio feedback when server changes LED state
+socket.on('gacheLocal', function (data) {  
+  //  console.log('GPIO26 function called');
+  //  console.log(data);
+    var myJSON = JSON.stringify(data);
+  //  console.log(myJSON);
+    document.getElementById('gache').checked = data;
+  //  console.log('GPIO26: '+data.toString());
+    if(data==1){
+      stateDoor.innerHTML = "Porte déverrouillée"
+    }else{
+      stateDoor.innerHTML = "Porte verrouillée"
+    }
+  });
 
 // function ReportTouchStart(e) {
 //   var y = e.target.previousElementSibling;

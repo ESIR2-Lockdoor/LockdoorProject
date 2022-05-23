@@ -170,7 +170,7 @@ app.get('/style-profil', (req, res) => {
     res.sendFile(`${__dirname}/public/CSS/style-profil.css`)
 })
 
-//images
+// images
 app.get('/imgdoor', (req, res) => {
     res.set('Content-Type', 'image/png')
     res.sendFile(`${__dirname}/public/images/greendoor.png`)
@@ -391,13 +391,11 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     //         console.error('There was an error', err);
 	//     	return;
 	// 	}
-	// 	if (gachevalue) gachevalue = 0;
-	// 	else gachevalue = 1;
 	// 	gachevalue = value;
-	// 	socket.emit('gache', gachevalue);
+	// 	socket.emit('gacheLocal', gachevalue);
 	// 	gache.writeSync(gachevalue);
 	// 	console.log('Changement etat de la gache avec rfid');
-	// 	io.emit('gache', gachevalue);
+	// 	io.emit('gacheLocal', gachevalue);
 	// });
 
 	// // this gets called whenever client presses GPIO26 toggle light button
@@ -407,11 +405,10 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 	// 	console.log('new gache value='+gachevalue);
 	// 	gache.writeSync(gachevalue); //turn LED on or off
 	// 	console.log('Changement etat de la gache avec website');
-	// 	io.emit('gache', gachevalue); //send button status to ALL clients
+	// 	io.emit('gacheLocal', gachevalue); //send button status to ALL clients
     // });
 
 	socket.on('IWantMyName', function() {
-
 		socket.emit('nomClient', user)
 	})
 
@@ -431,13 +428,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 		// 	console.log('Changement etat de la gache en simultané');
 		// 	io.emit('gache', gachevalue); //send button status to ALL clients 
 		// };	
-		// let idUser
-		// db.all('SELECT id_USER FROM USERS WHERE pseudo_USER=?', [user], (err, data) => {
-		// 	if(err) throw err
 
-		// 	idUser = data
-		// 	console.log('idUser = ' + idUser)
-		// })
 		
 		switch(user){
 			case 'coco':
@@ -473,17 +464,22 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
 	socket.on('IWantStateDoor', function() {
 		getAccess().then((data) => {
-			console.log(!data[0].history)
-			if(data[0].history != 0){
+			if(data[0].remote != 0){ // Autorisation de modifier l'état de la porte à distance
 				getStateDoor().then((data) => {
-					var state = data[0].state_DOOR
-					getHistoryForAll().then((data) => {
-						console.log(data)
-						socket.emit('stateDoor', JSON.stringify({state: state, data: data }))
-					})
+					socket.emit('gache', JSON.stringify({state: data[0].state_DOOR}))
 				})
 			}else{
-				socket.emit('NoAccessStateDoor')
+				socket.emit('NoAccessGache')
+			}
+			if(data[0].history != 0){
+				getHistoryForAll().then((data) => {
+					socket.emit('historyHome', JSON.stringify({data: data}))
+				})
+			}
+			if(data[0].local != 0){
+				getStateDoor().then((data) => {
+					socket.emit('gacheLocal', JSON.stringify({state: data[0].state_DOOR}))
+				})
 			}
 		})
 		
